@@ -1,9 +1,39 @@
-allow_embedding: false
+dependencies: []
+services:
+- source: /runtime/services/tables.yml
+  client_config: {}
+  server_config: {}
+startup: {type: form, module: Home}
 package_name: M3_App_1
+allow_embedding: false
 name: M3 App 1
-startup_form: Form1
-renamed: true
 runtime_options: {version: 2, client_version: '3', server_version: python3-sandbox,
   server_spec: null}
-dependencies: []
-services: []
+startup_form: null
+db_schema:
+  commanders:
+    client: full
+    server: full
+    columns:
+    - name: Commander
+      admin_ui: {order: 0, width: 200}
+      type: string
+    - name: Colours
+      admin_ui: {order: 1, width: 200}
+      type: string
+    title: Table 1
+  match_results:
+    client: full
+    server: full
+    columns:
+    - name: Player
+      admin_ui: {order: 0, width: 200}
+      type: string
+    - name: Commander
+      admin_ui: {order: 1, width: 200}
+      type: string
+    - name: PlayerPosition
+      admin_ui: {order: 2, width: 200}
+      type: number
+    title: Table 2
+renamed: true
