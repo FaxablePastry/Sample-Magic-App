@@ -8,11 +8,7 @@ class Home(HomeTemplate):
     def __init__(self, **properties):
         # Set Form properties and Data Bindings.
         self.init_components(**properties)
-        self.data_grid_1.items = self.get_commander_stats()
-        self.calculate_commander_win_rates()  # Call the method here
         self.form_show()
-        self.populate_data_grid()
-        self.other_form()
 
     def calculate_win_rate(self, games_played, games_won):
         if games_played == 0:
@@ -87,40 +83,32 @@ class Home(HomeTemplate):
         commander_stats = self.get_commander_stats()
         print(f"Commander stats: {commander_stats}")  # Print the commander statistics
     
-        # Clear existing rows in the data grid
-        self.data_grid_1.items = []
+        # Create a temporary table to hold the calculated data
+        temp_table = tables.DataTable(
+            columns=[
+                {'name': 'Commander', 'type': str},
+                {'name': 'GamesPlayed', 'type': int},
+                {'name': 'GamesWon', 'type': int},
+                {'name': 'WinRate', 'type': float}
+            ]
+        )
     
-        # Populate data grid with commander statistics
+        # Populate the temporary table with commander statistics
         for stat in commander_stats:
-            print(f"Processing stat: {stat}")  # Print the current stat being processed
-            row = {
-                'Commander': stat['Commander'],
-                'GamesPlayed': stat['GamesPlayed'],
-                'GamesWon': stat['GamesWon']
-            }
+            temp_table.add_row(
+                stat['Commander'],
+                stat['GamesPlayed'],
+                stat['GamesWon'],
+                stat['WinRate']
+            )
     
-            # Calculate and add WinRate if GamesPlayed and GamesWon are present
-            if 'GamesPlayed' in stat and 'GamesWon' in stat:
-                games_played = stat['GamesPlayed']
-                games_won = stat['GamesWon']
-                win_rate = self.calculate_win_rate(games_played, games_won)
-                row['WinRate'] = win_rate
+        # Bind the temporary table to the data grid
+        self.data_grid_1.items = temp_table
     
-            print(f"Appending row: {row}")  # Print the row being appended to the data grid
-            self.data_grid_1.items.append(row)
-          
         print(f"Data grid items: {self.data_grid_1.items}")  # Print the items bound to the data grid
 
-
-
     def form_show(self, **event_args):
-        commander_stats = self.get_commander_stats()
-        print(commander_stats)
-        self.data_grid_1.items = commander_stats
-      
-    def other_form(self, **event_args):
-      print("Form is being shown")  # Add this print statement
-      self.populate_data_grid()
+        self.populate_data_grid()
 
     def button_1_click(self, **event_args):
         open_form('Home')
