@@ -44,22 +44,95 @@ components:
   name: rich_text_1
   layout_properties: {slot: title}
   components: []
-- type: ColumnPanel
-  properties: {col_widths: '{}'}
-  name: column_panel_2
+- type: FlowPanel
+  properties: {}
+  name: flow_panel_1
   layout_properties: {slot: default}
   components:
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: I am  working on it, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
-    name: label_1
-    layout_properties: {grid_position: 'AVZUDW,JXSHLV'}
+  - type: TextBox
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Commander,
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: commander
+    layout_properties: {}
+    event_bindings: {pressed_enter: commander_pressed_enter}
   - type: CheckBox
     properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-      foreground: '', allow_indeterminate: false, visible: true, text: Free button,
+      foreground: '', allow_indeterminate: false, visible: true, text: White, font_size: null,
+      font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
+      bold: false, checked: false, underline: false}
+    name: white
+    layout_properties: {}
+    event_bindings: {change: white_change}
+  - type: CheckBox
+    properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+      foreground: '', allow_indeterminate: false, visible: true, text: Blue, font_size: null,
+      font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
+      bold: false, checked: false, underline: false}
+    name: blue
+    layout_properties: {}
+    event_bindings: {change: blue_change}
+  - type: CheckBox
+    properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+      foreground: '', allow_indeterminate: false, visible: true, text: Black, font_size: null,
+      font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
+      bold: false, checked: false, underline: false}
+    name: black
+    layout_properties: {}
+    event_bindings: {change: black_change}
+  - type: CheckBox
+    properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+      foreground: '', allow_indeterminate: false, visible: true, text: Red, font_size: null,
+      font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
+      bold: false, checked: false, underline: false}
+    name: red
+    layout_properties: {}
+    event_bindings: {change: red_change}
+  - type: CheckBox
+    properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+      foreground: '', allow_indeterminate: false, visible: true, text: Green, font_size: null,
+      font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
+      bold: false, checked: false, underline: false}
+    name: green
+    layout_properties: {}
+    event_bindings: {change: green_change}
+  - type: CheckBox
+    properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+      foreground: '', allow_indeterminate: false, visible: true, text: Colourless,
       font_size: null, font: '', spacing_above: small, spacing_below: small, italic: false,
       background: '', bold: false, checked: false, underline: false}
-    name: check_box_1
-    layout_properties: {slot: default, grid_position: 'AVZUDW,YAHSXD'}
+    name: colourless
+    layout_properties: {}
+    event_bindings: {change: colourless_change}
+  - type: DropDown
+    properties:
+      role: null
+      align: full
+      tooltip: ''
+      placeholder: Deckbuilder
+      border: ''
+      enabled: true
+      foreground: ''
+      items: [Benas, Evan, Jed, Nils]
+      visible: true
+      font_size: null
+      font: ''
+      spacing_above: small
+      spacing_below: small
+      italic: false
+      background: ''
+      bold: false
+      underline: false
+      include_placeholder: true
+    name: builder
+    layout_properties: {}
+    event_bindings: {change: builder_change}
+  - type: Button
+    properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: Submit, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: deck_button
+    layout_properties: {}
+    event_bindings: {click: deck_button_click}

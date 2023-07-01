@@ -19,8 +19,26 @@ db_schema:
     - name: Commander
       admin_ui: {order: 0, width: 200}
       type: string
-    - name: Colours
+    - name: White
       admin_ui: {order: 1, width: 200}
+      type: bool
+    - name: Blue
+      admin_ui: {order: 2, width: 200}
+      type: bool
+    - name: Black
+      admin_ui: {order: 3, width: 200}
+      type: bool
+    - name: Red
+      admin_ui: {order: 4, width: 200}
+      type: bool
+    - name: Green
+      admin_ui: {order: 5, width: 200}
+      type: bool
+    - name: Colourless
+      admin_ui: {order: 6, width: 200}
+      type: bool
+    - name: Builder
+      admin_ui: {order: 7, width: 200}
       type: string
     title: Table 1
   match_results:
