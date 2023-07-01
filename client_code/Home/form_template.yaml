@@ -15,6 +15,33 @@ components:
       spacing_below: small, background: '', horizontal_align: center}
     name: image_1
     layout_properties: {grid_position: 'IGJPNB,MMXRFA'}
+  - type: DataGrid
+    properties:
+      role: null
+      columns:
+      - {id: WZGCDR, title: Commander, data_key: commander, $$hashKey: 'object:2115',
+        expand: true}
+      - {id: GJWFET, title: Games Played, data_key: games_played, $$hashKey: 'object:2070'}
+      - {id: GMXTDM, title: Games Won, data_key: games_won, $$hashKey: 'object:2071'}
+      - {id: VULAIX, title: Win Percentage, data_key: percentage, $$hashKey: 'object:2113'}
+      auto_header: true
+      tooltip: ''
+      border: ''
+      foreground: ''
+      rows_per_page: 20
+      visible: true
+      wrap_on: never
+      show_page_controls: true
+      spacing_above: small
+      spacing_below: small
+      background: ''
+    name: data_grid_1
+    layout_properties: {grid_position: 'HIRKDJ,WIDABP'}
+    components:
+    - type: RepeatingPanel
+      properties: {spacing_above: none, spacing_below: none, item_template: Home.RowTemplate1}
+      name: repeating_panel_1
+      layout_properties: {}
 - type: FlowPanel
   properties: {}
   name: navbar_links
