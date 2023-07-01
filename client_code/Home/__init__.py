@@ -83,33 +83,57 @@ class Home(HomeTemplate):
         commander_stats = self.get_commander_stats()
         print(f"Commander stats: {commander_stats}")  # Print the commander statistics
     
-        # Create a temporary table to hold the calculated data
-        temp_table = tables.DataTable(
-            columns=[
-                {'name': 'Commander', 'type': str},
-                {'name': 'GamesPlayed', 'type': int},
-                {'name': 'GamesWon', 'type': int},
-                {'name': 'WinRate', 'type': float}
-            ]
-        )
-    
-        # Populate the temporary table with commander statistics
-        for stat in commander_stats:
-            temp_table.add_row(
-                stat['Commander'],
-                stat['GamesPlayed'],
-                stat['GamesWon'],
-                stat['WinRate']
-            )
-    
-        # Bind the temporary table to the data grid
-        self.data_grid_1.items = temp_table
+        # Bind the commander_stats list directly to the data grid
+        self.data_grid_1.items = commander_stats
     
         print(f"Data grid items: {self.data_grid_1.items}")  # Print the items bound to the data grid
 
     def form_show(self, **event_args):
         self.populate_data_grid()
 
+    def calculate_player_stats(self):
+        player_stats = []
+
+        # Retrieve all the records from the match_results table
+        records = app_tables.match_results.search()
+
+        # Count the games played and games won for each player
+        player_stats_dict = {}
+        for record in records:
+            player = record['Player']
+            player_position = record['PlayerPosition']
+
+            if player not in player_stats_dict:
+                player_stats_dict[player] = {'games_played': 0, 'games_won': 0}
+
+            player_stats_dict[player]['games_played'] += 1
+            if player_position == 1:
+                player_stats_dict[player]['games_won'] += 1
+
+        # Calculate the win rate for each player
+        for player, stats in player_stats_dict.items():
+            games_played = stats['games_played']
+            games_won = stats['games_won']
+            win_rate = (games_won / games_played) * 100 if games_played > 0 else 0
+
+            # Create a dictionary with the player statistics
+            player_stat = {
+                'Player': player,
+                'GamesPlayed': games_played,
+                'GamesWon': games_won,
+                'WinRate': win_rate
+            }
+            player_stats.append(player_stat)
+
+        # Sort the player_stats list by WinRate in descending order
+        player_stats.sort(key=lambda x: x['WinRate'], reverse=True)
+
+        return player_stats
+
+    def populate_player_data_grid(self):
+        player_stats = self.calculate_player_stats()
+        self.player_data_grid.items = player_stats
+  
     def button_1_click(self, **event_args):
         open_form('Home')
 
