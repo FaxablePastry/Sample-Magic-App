@@ -19,11 +19,11 @@ components:
     properties:
       role: null
       columns:
-      - {id: WZGCDR, title: Commander, data_key: commander, $$hashKey: 'object:2115',
+      - {id: WZGCDR, title: Commander, data_key: Commander, $$hashKey: 'object:2115',
         expand: true}
-      - {id: GJWFET, title: Games Played, data_key: games_played, $$hashKey: 'object:2070'}
-      - {id: GMXTDM, title: Games Won, data_key: games_won, $$hashKey: 'object:2071'}
-      - {id: VULAIX, title: Win Percentage, data_key: percentage, $$hashKey: 'object:2113'}
+      - {id: GJWFET, title: Games Played, data_key: GamesPlayed, $$hashKey: 'object:2070'}
+      - {id: GMXTDM, title: Games Won, data_key: GamesWon, $$hashKey: 'object:2071'}
+      - {id: VULAIX, title: Win Percentage, data_key: WinRate, $$hashKey: 'object:2113'}
       auto_header: true
       tooltip: ''
       border: ''

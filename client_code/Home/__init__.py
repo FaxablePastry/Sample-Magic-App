@@ -11,6 +11,7 @@ class Home(HomeTemplate):
         self.data_grid_1.items = self.get_commander_stats()
         self.calculate_commander_win_rates()  # Call the method here
         self.form_show()
+        self.populate_data_grid()
 
     def calculate_win_rate(self, games_played, games_won):
         if games_played == 0:
@@ -79,6 +80,37 @@ class Home(HomeTemplate):
             commander_stats.append(commander_stat)
 
         return commander_stats
+
+  
+    def populate_data_grid(self):
+        commander_stats = self.get_commander_stats()
+        print(f"Commander stats: {commander_stats}")  # Print the commander statistics
+    
+        # Clear existing rows in the data grid
+        self.data_grid_1.items = []
+    
+        # Populate data grid with commander statistics
+        for stat in commander_stats:
+            print(f"Processing stat: {stat}")  # Print the current stat being processed
+            row = {
+                'Commander': stat['Commander'],
+                'GamesPlayed': stat['GamesPlayed'],
+                'GamesWon': stat['GamesWon']
+            }
+    
+            # Calculate and add WinRate if GamesPlayed and GamesWon are present
+            if 'GamesPlayed' in stat and 'GamesWon' in stat:
+                games_played = stat['GamesPlayed']
+                games_won = stat['GamesWon']
+                win_rate = self.calculate_win_rate(games_played, games_won)
+                row['WinRate'] = win_rate
+    
+            print(f"Appending row: {row}")  # Print the row being appended to the data grid
+            self.data_grid_1.items.append(row)
+          
+        print(f"Data grid items: {self.data_grid_1.items}")  # Print the items bound to the data grid
+
+
 
     def form_show(self, **event_args):
         commander_stats = self.get_commander_stats()
