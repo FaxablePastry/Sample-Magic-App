@@ -88,8 +88,6 @@ class Home(HomeTemplate):
     
         print(f"Data grid items: {self.data_grid_1.items}")  # Print the items bound to the data grid
 
-    def form_show(self, **event_args):
-        self.populate_data_grid()
 
     def calculate_player_stats(self):
         player_stats = []
@@ -133,7 +131,10 @@ class Home(HomeTemplate):
     def populate_player_data_grid(self):
         player_stats = self.calculate_player_stats()
         self.player_data_grid.items = player_stats
-  
+
+    def form_show(self, **event_args):
+      self.populate_data_grid()
+      self.populate_player_data_grid()
     def button_1_click(self, **event_args):
         open_form('Home')
 
