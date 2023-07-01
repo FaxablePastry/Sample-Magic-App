@@ -78,3 +78,12 @@ class AddMatch(AddMatchTemplate):
           
             # Save the values to the table
             app_tables.match_results.add_row(Player=player_name, Commander=commander_name, PlayerPosition=player_position)
+              # Clear the form fields
+        self.clear_form_fields()
+    
+    def clear_form_fields(self):
+        # Clear the selected values of the dropdowns
+        for row_panel in self.flow_panel_1.get_components():
+            row_panel.get_components()[0].selected_value = None
+            row_panel.get_components()[1].selected_value = None
+            row_panel.get_components()[2].selected_value = None
