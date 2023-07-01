@@ -12,6 +12,7 @@ class Home(HomeTemplate):
         self.calculate_commander_win_rates()  # Call the method here
         self.form_show()
         self.populate_data_grid()
+        self.other_form()
 
     def calculate_win_rate(self, games_played, games_won):
         if games_played == 0:
@@ -116,6 +117,10 @@ class Home(HomeTemplate):
         commander_stats = self.get_commander_stats()
         print(commander_stats)
         self.data_grid_1.items = commander_stats
+      
+    def other_form(self, **event_args):
+      print("Form is being shown")  # Add this print statement
+      self.populate_data_grid()
 
     def button_1_click(self, **event_args):
         open_form('Home')
