@@ -75,9 +75,10 @@ class AddMatch(AddMatchTemplate):
             player_name = row_panel.get_components()[0].selected_value
             commander_name = row_panel.get_components()[1].selected_value
             player_position = int(row_panel.get_components()[2].selected_value)  # Convert to integer
+            player_count = int(self.drop_down_1.selected_value)
           
             # Save the values to the table
-            app_tables.match_results.add_row(Player=player_name, Commander=commander_name, PlayerPosition=player_position)
+            app_tables.match_results.add_row(Player=player_name, Commander=commander_name, PlayerPosition=player_position, PlayerCount=player_count)
               # Clear the form fields
         self.clear_form_fields()
     

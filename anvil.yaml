@@ -54,5 +54,8 @@ db_schema:
     - name: PlayerPosition
       admin_ui: {order: 2, width: 200}
       type: number
+    - name: PlayerCount
+      admin_ui: {order: 3, width: 200}
+      type: number
     title: Table 2
 renamed: true
