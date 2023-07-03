@@ -81,12 +81,11 @@ class Home(HomeTemplate):
     def populate_data_grid(self):
         try:
             commander_stats = self.get_commander_stats()
-            print(f"Commander stats: {commander_stats}")  # Print the commander statistics
+            stats_text = ""
+            for stat in commander_stats:
+                stats_text += f"Commander: {stat['Commander']}, Games Played: {stat['GamesPlayed']}, Games Won: {stat['GamesWon']}\n"
 
-            # Bind the commander_stats list directly to the data grid
-            self.data_grid_1.items = commander_stats
-
-            print(f"Data grid items: {self.data_grid_1.items}")  # Print the items bound to the data grid
+            self.text_box_1.text = stats_text
         except Exception as e:
             print(f"Error occurred while populating data grid: {str(e)}")
 
@@ -132,7 +131,11 @@ class Home(HomeTemplate):
     def populate_player_data_grid(self):
         try:
             player_stats = self.calculate_player_stats()
-            self.player_data_grid.items = player_stats
+            stats_text = ""
+            for stat in player_stats:
+                stats_text += f"Player: {stat['Player']}, Games Played: {stat['GamesPlayed']}, Games Won: {stat['GamesWon']}, Win Rate: {stat['WinRate']:.2f}%\n"
+
+            self.text_box_2.text = stats_text
         except Exception as e:
             print(f"Error occurred while populating player data grid: {str(e)}")
 
