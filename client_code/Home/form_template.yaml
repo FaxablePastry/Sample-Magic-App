@@ -8,29 +8,43 @@ components:
   name: content_panel
   layout_properties: {slot: default}
   components:
-  - type: Image
-    properties: {role: null, vertical_align: center, height: 200, tooltip: '', border: '',
-      foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: small,
-      source: 'https://media.tenor.com/1E6HMze0mQEAAAAC/dancing-cockroach-rainbow.gif',
-      spacing_below: small, background: '', horizontal_align: center}
-    name: image_1
-    layout_properties: {grid_position: 'IGJPNB,MMXRFA'}
+  - type: ColumnPanel
+    properties: {col_widths: '{}'}
+    name: column_panel_2
+    layout_properties: {grid_position: 'XPVNAT,XKOZNW'}
+    components:
+    - type: FlowPanel
+      properties: {role: null, spacing: medium, align: left, tooltip: '', border: '',
+        foreground: '', visible: true, spacing_above: medium, spacing_below: medium,
+        background: ''}
+      name: flow_panel_1
+      layout_properties: {grid_position: 'EOKBIJ,HWGXIR'}
+      components:
+      - type: Label
+        properties: {}
+        name: text_box_1
+        layout_properties: {grid_position: 'BBAASW,MADYYD'}
+  - type: ColumnPanel
+    properties: {}
+    name: column_panel_3
+    layout_properties: {grid_position: 'XPVNAT,MJSJCU'}
+  - type: FlowPanel
+    properties: {}
+    name: flow_panel_2
+    layout_properties: {grid_position: 'XPVNAT,JNQMVW GLRDQB,BKFCQZ'}
+    components:
+    - type: Label
+      properties: {}
+      name: text_box_2
+      layout_properties: {grid_position: 'ZGDEUC,VHKWMZ'}
   - type: RichText
     properties: {}
     name: commander_textbox
-    layout_properties: {grid_position: 'LAIHXY,NLBJLE'}
+    layout_properties: {grid_position: 'XPVNAT,JNQMVW DTERLI,PJPFER'}
   - type: Label
     properties: {}
     name: player_textbox
-    layout_properties: {grid_position: 'DCDCDX,XGKXUQ'}
-  - type: Label
-    properties: {}
-    name: text_box_1
-    layout_properties: {grid_position: 'BBAASW,MADYYD'}
-  - type: Label
-    properties: {}
-    name: text_box_2
-    layout_properties: {grid_position: 'XDTHOJ,ZFVQSR'}
+    layout_properties: {grid_position: 'XPVNAT,JNQMVW QJLQZZ,YVKHQE'}
 - type: FlowPanel
   properties: {}
   name: navbar_links
