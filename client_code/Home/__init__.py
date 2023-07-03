@@ -78,16 +78,17 @@ class Home(HomeTemplate):
 
         return commander_stats
 
-  
     def populate_data_grid(self):
-        commander_stats = self.get_commander_stats()
-        print(f"Commander stats: {commander_stats}")  # Print the commander statistics
-    
-        # Bind the commander_stats list directly to the data grid
-        self.data_grid_1.items = commander_stats
-    
-        print(f"Data grid items: {self.data_grid_1.items}")  # Print the items bound to the data grid
+        try:
+            commander_stats = self.get_commander_stats()
+            print(f"Commander stats: {commander_stats}")  # Print the commander statistics
 
+            # Bind the commander_stats list directly to the data grid
+            self.data_grid_1.items = commander_stats
+
+            print(f"Data grid items: {self.data_grid_1.items}")  # Print the items bound to the data grid
+        except Exception as e:
+            print(f"Error occurred while populating data grid: {str(e)}")
 
     def calculate_player_stats(self):
         player_stats = []
@@ -129,12 +130,16 @@ class Home(HomeTemplate):
         return player_stats
 
     def populate_player_data_grid(self):
-        player_stats = self.calculate_player_stats()
-        self.player_data_grid.items = player_stats
+        try:
+            player_stats = self.calculate_player_stats()
+            self.player_data_grid.items = player_stats
+        except Exception as e:
+            print(f"Error occurred while populating player data grid: {str(e)}")
 
     def form_show(self, **event_args):
-      self.populate_data_grid()
-      self.populate_player_data_grid()
+        self.populate_data_grid()
+        self.populate_player_data_grid()
+
     def button_1_click(self, **event_args):
         open_form('Home')
 
