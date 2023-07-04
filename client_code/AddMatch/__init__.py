@@ -66,6 +66,9 @@ class AddMatch(AddMatchTemplate):
         for record in records:
             commander_name = record['Commander']
             commander_names.append(commander_name)
+
+        # Sort the commander names alphabetically
+        commander_names.sort()
         
         return commander_names
 
