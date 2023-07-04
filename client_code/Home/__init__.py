@@ -165,7 +165,7 @@ class Home(HomeTemplate):
           for stat in commander_stats:
               stats_text += f"{stat['Commander']}, Played: {stat['GamesPlayed']}, Won: {stat['GamesWon']}, Win Rate: {stat['WinRate']}%\n"
   
-          self.label_5.text = stats_text
+          self.commander_textbox.text = stats_text
       except Exception as e:
           print(f"Error occurred while populating commander played data: {str(e)}")
 
