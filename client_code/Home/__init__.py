@@ -140,8 +140,15 @@ class Home(HomeTemplate):
             stats_text = ""
             for stat in player_stats:
                 stats_text += f"{stat['Player']}, Played: {stat['GamesPlayed']}, Won: {stat['GamesWon']}, Win Rate: {stat['WinRate']:.2f}%\n"
-
-            self.text_box_2.text = stats_text
+    # Sort the commander_stats list alphabetically by Commander
+            commander_stats.sort(key=lambda x: x['Commander'])
+    
+            stats_text_alphabetical = ""
+            for stat in commander_stats:
+                stats_text_alphabetical += f"{stat['Commander']}, Played: {stat['GamesPlayed']}, Won: {stat['GamesWon']}, Win Rate: {stat['WinRate']}%\n"
+    
+            self.text_box_1.text = stats_text
+            self.text_box_2.text = stats_text_alphabetical
         except Exception as e:
             print(f"Error occurred while populating player data grid: {str(e)}")
 
