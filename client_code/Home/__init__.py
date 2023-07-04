@@ -82,7 +82,8 @@ class Home(HomeTemplate):
         commander_stats.sort(key=lambda x: x['WinRate'], reverse=True)
     
         return commander_stats
-    
+
+   
     def populate_data_grid(self):
         try:
             commander_stats = self.get_commander_stats()
@@ -153,21 +154,58 @@ class Home(HomeTemplate):
         except Exception as e:
             print(f"Error occurred while populating player data grid: {str(e)}")
 
-  
+      
     def populate_commander_played_data(self):
-      try:
-          commander_stats = self.get_commander_stats()
+        try:
+            commander_stats = self.get_commander_stats()
+    
+            # Sort the commander_stats list by the number of times a deck has been played in descending order
+            commander_stats.sort(key=lambda x: x['GamesPlayed'], reverse=True)
+    
+            stats_text = ""
+            for stat in commander_stats:
+                commander = stat['Commander']
+                games_played = stat['GamesPlayed']
+                games_won = stat['GamesWon']
+                win_rate = stat['WinRate']
+    
+                stats_text += f"{commander}, Played: {games_played}, Won: {games_won}, Win Rate: {win_rate}%\n"
+    
+            self.commander_textbox.text = stats_text
+        except Exception as e:
+            print(f"Error occurred while populating commander played data: {str(e)}")
+    
+    def get_colour_stats(self):
+      colour_stats = []
   
-          # Sort the commander_stats list by the number of times a deck has been played in descending order
-          commander_stats.sort(key=lambda x: x['GamesPlayed'], reverse=True)
+      # Retrieve all the records from the commanders table
+      records = app_tables.commanders.search()
   
-          stats_text = ""
-          for stat in commander_stats:
-              stats_text += f"{stat['Commander']}, Played: {stat['GamesPlayed']}, Won: {stat['GamesWon']}, Win Rate: {stat['WinRate']}%\n"
+      # Count the games played and games won for each commander
+      for record in records:
+          commander = record['Commander']
+          white = record['White']
+          blue = record['Blue']
+          black = record['Black']
+          red = record['Red']
+          green = record['Green']
+          colourless = record['Colourless']
   
-          self.commander_textbox.text = stats_text
-      except Exception as e:
-          print(f"Error occurred while populating commander played data: {str(e)}")
+          # Check if any color is true
+          if any([white, blue, black, red, green, colourless]):
+              # Create a dictionary with the commander statistics
+              colour_stat = {
+                  'Commander': commander,
+                  'White': white,
+                  'Blue': blue,
+                  'Black': black,
+                  'Red': red,
+                  'Green': green,
+                  'Colourless': colourless
+              }
+              colour_stats.append(colour_stat)
+      print(colour_stats)
+      return colour_stats
 
 
 
@@ -175,6 +213,7 @@ class Home(HomeTemplate):
         self.populate_data_grid()
         self.populate_player_data_grid()
         self.populate_commander_played_data()
+        self.get_colour_stats()
 
     def button_1_click(self, **event_args):
         open_form('Home')

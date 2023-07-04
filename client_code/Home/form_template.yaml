@@ -72,6 +72,10 @@ components:
       properties: {}
       name: commander_textbox
       layout_properties: {grid_position: 'ITSNRT,BXVDGV'}
+  - type: Label
+    properties: {}
+    name: label_5
+    layout_properties: {grid_position: 'UUOMSC,DJATAV'}
 - type: FlowPanel
   properties: {}
   name: navbar_links
