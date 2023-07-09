@@ -19,11 +19,15 @@ components:
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_1
-      layout_properties: {grid_position: 'NVSIQN,SHFNPX'}
+      layout_properties: {grid_position: 'PRXREQ,GNJAFX NVSIQN,SHFNPX'}
     - type: Label
       properties: {}
       name: player_textbox
-      layout_properties: {grid_position: 'FEDDAN,UUEHED'}
+      layout_properties: {grid_position: 'PRXREQ,GNJAFX FEDDAN,UUEHED'}
+    - type: Label
+      properties: {}
+      name: player_deck
+      layout_properties: {grid_position: 'PRXREQ,QFLUIO'}
   - type: ColumnPanel
     properties: {col_widths: '{}'}
     name: column_panel_2

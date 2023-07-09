@@ -207,6 +207,71 @@ class Home(HomeTemplate):
       print(colour_stats)
       return colour_stats
 
+    def display_most_played_and_best_deck(self):
+        try:
+            records = app_tables.match_results.search()
+    
+            player_deck_stats = {}
+            for record in records:
+                player = record['Player']
+                deck = record['Commander']
+                player_position = record['PlayerPosition']
+    
+                if player not in player_deck_stats:
+                    player_deck_stats[player] = {
+                        'total_played': 0,
+                        'position_1_count': 0,
+                        'win_rate': 0,
+                        'most_played_deck': '',
+                        'best_performing_deck': '',
+                    }
+    
+                player_deck_stats[player]['total_played'] += 1
+    
+                if player_position == 1:
+                    player_deck_stats[player]['position_1_count'] += 1
+    
+            # Calculate the win rate and update the most played and best performing deck for each player
+            for player, stats in player_deck_stats.items():
+                games_played = stats['total_played']
+                games_won = stats['position_1_count']
+                win_rate = (games_won / games_played) * 100 if games_played > 0 else 0
+                stats['win_rate'] = win_rate
+    
+            # Find the most played commander and the best performing deck for each player
+            for player, stats in player_deck_stats.items():
+                most_played_deck_count = 0
+                best_win_rate = 0
+    
+                for record in records:
+                    if record['Player'] == player:
+                        deck = record['Commander']
+                        games_played = player_deck_stats[player]['total_played']
+                        games_won = player_deck_stats[player]['position_1_count']
+                        win_rate = (games_won / games_played) * 100 if games_played > 0 else 0
+    
+                        if games_played > most_played_deck_count:
+                            most_played_deck_count = games_played
+                            stats['most_played_deck'] = deck
+    
+                        if win_rate > best_win_rate:
+                            best_win_rate = win_rate
+                            stats['best_performing_deck'] = deck
+    
+            # Display the player's most played commander and best performing deck
+            stats_text = ""
+            for player, stats in player_deck_stats.items():
+                stats_text += f"Player: {player}\n"
+                stats_text += f"Most Played Commander: {stats['most_played_deck']}, Played: {stats['total_played']}\n"
+                stats_text += f"Best Performing Deck: {stats['best_performing_deck']}, Win Rate: {stats['win_rate']:.2f}%\n"
+                stats_text += "\n"
+    
+            self.player_deck.text = stats_text
+    
+        except Exception as e:
+            print(f"Error occurred while displaying player deck stats: {str(e)}")
+
+
 
 
     def form_show(self, **event_args):
@@ -214,6 +279,7 @@ class Home(HomeTemplate):
         self.populate_player_data_grid()
         self.populate_commander_played_data()
         self.get_colour_stats()
+        self.display_most_played_and_best_deck()
 
     def button_1_click(self, **event_args):
         open_form('Home')
