@@ -242,6 +242,8 @@ class Home(HomeTemplate):
             for player, stats in player_deck_stats.items():
                 most_played_deck_count = 0
                 best_win_rate = 0
+                most_played_deck = ''
+                best_performing_deck = ''
     
                 for record in records:
                     if record['Player'] == player:
@@ -252,11 +254,14 @@ class Home(HomeTemplate):
     
                         if games_played > most_played_deck_count:
                             most_played_deck_count = games_played
-                            stats['most_played_deck'] = deck
+                            most_played_deck = deck
     
                         if win_rate > best_win_rate:
                             best_win_rate = win_rate
-                            stats['best_performing_deck'] = deck
+                            best_performing_deck = deck
+    
+                stats['most_played_deck'] = most_played_deck
+                stats['best_performing_deck'] = best_performing_deck
     
             # Display the player's most played commander and best performing deck
             stats_text = ""
@@ -270,7 +275,6 @@ class Home(HomeTemplate):
     
         except Exception as e:
             print(f"Error occurred while displaying player deck stats: {str(e)}")
-
 
 
 
