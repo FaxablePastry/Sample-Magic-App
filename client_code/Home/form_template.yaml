@@ -80,6 +80,17 @@ components:
     properties: {}
     name: label_5
     layout_properties: {grid_position: 'UUOMSC,DJATAV'}
+  - type: Label
+    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: Colour Counts, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_7
+    layout_properties: {grid_position: 'OSFIWX,MZNNMP'}
+  - type: Label
+    properties: {}
+    name: colour_counts
+    layout_properties: {grid_position: 'ZZLFWT,GROFWE'}
 - type: FlowPanel
   properties: {}
   name: navbar_links
