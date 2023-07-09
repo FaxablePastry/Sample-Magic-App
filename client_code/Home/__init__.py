@@ -208,76 +208,74 @@ class Home(HomeTemplate):
       return colour_stats
 
     def display_most_played_and_best_deck(self):
-      try:
-          records = app_tables.match_results.search()
-  
-          player_stats = {}
-          deck_play_counts = {}
-          deck_win_counts = {}
-  
-          for record in records:
-              player = record['Player']
-              deck = record['Commander']
-              player_position = record['PlayerPosition']
-              player_count = record['PlayerCount']
-  
-              if player not in player_stats:
-                  player_stats[player] = {
-                      'total_played': 0,
-                      'position_1_count': 0,
-                      'win_rate': 0,
-                      'decks': {}
-                  }
-  
-              if deck not in player_stats[player]['decks']:
-                  player_stats[player]['decks'][deck] = {
-                      'played_count': 0,
-                      'win_count': 0,
-                      'win_rate': 0
-                  }
-  
-              player_stats[player]['decks'][deck]['played_count'] += 1
-              player_stats[player]['total_played'] += 1
-  
-              if player_position == 1:
-                  player_stats[player]['decks'][deck]['win_count'] += 1
-                  player_stats[player]['position_1_count'] += 1
-  
-          for player, stats in player_stats.items():
-              games_played = stats['total_played']
-              games_won = stats['position_1_count']
-              win_rate = (games_won / games_played) * 100 if games_played > 0 else 0
-              stats['win_rate'] = win_rate
-  
-              for deck, deck_stats in stats['decks'].items():
-                  deck_played_count = deck_stats['played_count']
-                  deck_won_count = deck_stats['win_count']
-                  deck_win_rate = (deck_won_count / deck_played_count) * 100 if deck_played_count > 0 else 0
-                  deck_stats['win_rate'] = deck_win_rate
-  
-          most_played_decks = {}
-          best_performing_decks = {}
-  
-          for player, stats in player_stats.items():
-              most_played_deck = max(stats['decks'], key=lambda x: stats['decks'][x]['played_count'])
-              most_played_decks[player] = (most_played_deck, stats['decks'][most_played_deck]['played_count'])
-  
-              best_performing_deck = max(stats['decks'], key=lambda x: stats['decks'][x]['win_rate'])
-              best_performing_decks[player] = (best_performing_deck, stats['decks'][best_performing_deck]['win_rate'])
-  
-          # Display the player's most played and best performing deck
-          stats_text = ""
-          for player, (most_played_deck, played_count) in most_played_decks.items():
-              best_performing_deck, win_rate = best_performing_decks[player]
-              stats_text += f"Player: {player}\n"
-              stats_text += f"Most Played Deck: {most_played_deck}, Played: {played_count}\n"
-              stats_text += f"Best Performing Deck: {best_performing_deck}, Win Rate: {win_rate:.2f}%\n"
-              stats_text += "\n"
-  
-          self.player_deck.text = stats_text
-  
-      except Exception as e:
-          print(f"Error occurred while displaying player deck stats: {str(e)}")
+        try:
+            records = app_tables.match_results.search()
+    
+            player_stats = {}
+            deck_play_counts = {}
+            deck_win_counts = {}
+    
+            for record in records:
+                player = record['Player']
+                deck = record['Commander']
+                player_position = record['PlayerPosition']
+                player_count = record['PlayerCount']
+    
+                if player not in player_stats:
+                    player_stats[player] = {
+                        'total_played': 0,
+                        'position_1_count': 0,
+                        'win_rate': 0,
+                        'decks': {}
+                    }
+    
+                if deck not in player_stats[player]['decks']:
+                    player_stats[player]['decks'][deck] = {
+                        'played_count': 0,
+                        'win_count': 0,
+                        'win_rate': 0
+                    }
+    
+                player_stats[player]['decks'][deck]['played_count'] += 1
+                player_stats[player]['total_played'] += 1
+    
+                if player_position == 1:
+                    player_stats[player]['decks'][deck]['win_count'] += 1
+                    player_stats[player]['position_1_count'] += 1
+    
+            for player, stats in player_stats.items():
+                games_played = stats['total_played']
+                games_won = stats['position_1_count']
+                win_rate = (games_won / games_played) * 100 if games_played > 0 else 0
+                stats['win_rate'] = win_rate
+    
+            most_played_decks = {}
+            best_performing_decks = {}
+    
+            for player, stats in player_stats.items():
+                most_played_deck = max(stats['decks'], key=lambda x: stats['decks'][x]['played_count'])
+                most_played_decks[player] = (
+                    most_played_deck, stats['decks'][most_played_deck]['played_count'], stats['win_rate']
+                )
+    
+                best_performing_deck = max(stats['decks'], key=lambda x: (stats['decks'][x]['win_count'] / stats['decks'][x]['played_count']) * 100)
+                best_performing_decks[player] = (
+                    best_performing_deck, (stats['decks'][best_performing_deck]['win_count'] / stats['decks'][best_performing_deck]['played_count']) * 100, stats['decks'][best_performing_deck]['played_count']
+                )
+    
+            # Display the player's most played and best performing deck
+            stats_text = ""
+            for player, (most_played_deck, played_count, win_rate) in most_played_decks.items():
+                best_performing_deck, best_performing_win_rate, best_performing_played_count = best_performing_decks[player]
+                stats_text += f"Player: {player}\n"
+                stats_text += f"Most Played Deck: {most_played_deck}, Played: {played_count}, Win Rate: {win_rate:.2f}%\n"
+                stats_text += f"Best Performing Deck: {best_performing_deck}, Played: {best_performing_played_count}, Win Rate: {best_performing_win_rate:.2f}%\n"
+                stats_text += "\n"
+    
+            self.player_deck.text = stats_text
+    
+        except Exception as e:
+            print(f"Error occurred while displaying player deck stats: {str(e)}")
 
 
 
