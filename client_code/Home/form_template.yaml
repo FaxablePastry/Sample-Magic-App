@@ -24,6 +24,32 @@ components:
       properties: {}
       name: player_textbox
       layout_properties: {grid_position: 'PRXREQ,GNJAFX FEDDAN,UUEHED'}
+    - type: DataGrid
+      properties:
+        role: null
+        columns:
+        - {id: OQVOFY, title: Player, data_key: player_name, $$hashKey: 'object:4877'}
+        - {id: FPRCSV, title: Games Played, data_key: player_played, $$hashKey: 'object:4878'}
+        - {id: MMJAYG, title: Games Won, data_key: player_won, $$hashKey: 'object:4879'}
+        - {id: TIBCCL, title: Win Rate, data_key: player_rate, $$hashKey: 'object:4916'}
+        auto_header: true
+        tooltip: ''
+        border: ''
+        foreground: ''
+        rows_per_page: 20
+        visible: true
+        wrap_on: never
+        show_page_controls: true
+        spacing_above: small
+        spacing_below: small
+        background: ''
+      name: player_grid
+      layout_properties: {grid_position: 'PRXREQ,GNJAFX NPQZIQ,DNZGWN'}
+      components:
+      - type: RepeatingPanel
+        properties: {spacing_above: none, spacing_below: none, item_template: Home.RowTemplate4}
+        name: repeating_panel_2
+        layout_properties: {}
     - type: Label
       properties: {}
       name: player_deck
@@ -97,6 +123,7 @@ components:
       columns:
       - {id: BBPRTF, title: Name, data_key: commander_name, $$hashKey: 'object:727'}
       - {id: OHZBYG, title: Games Played, data_key: commander_played, $$hashKey: 'object:728'}
+      - {id: CJKDPE, title: Games Won, data_key: commander_won, $$hashKey: 'object:2774'}
       - {id: QHVDLH, title: Win Rate, data_key: commander_win, $$hashKey: 'object:729'}
       auto_header: true
       tooltip: ''

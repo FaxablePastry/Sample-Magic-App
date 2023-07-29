@@ -120,6 +120,7 @@ class Home(HomeTemplate):
             games_played = stats['games_played']
             games_won = stats['games_won']
             win_rate = (games_won / games_played) * 100 if games_played > 0 else 0
+            win_rate = round(win_rate,2)
 
             # Create a dictionary with the player statistics
             player_stat = {
@@ -216,10 +217,23 @@ class Home(HomeTemplate):
         print(colour_stats)
         return colour_stats
         
-    def populate_grid(self):
-      self.repeating_panel_1.items = [
-        {'commander_name':'Jeremy','commander_game':'3','commander_win':'33%'}
-      ]
+    def populate_commander_grid(self):
+      try:
+            commander_stats = self.get_commander_stats()
+            data = [{'commander_name': stat['Commander'], 'commander_played': stat['GamesPlayed'], 'commander_won': stat['GamesWon'], 'commander_win': stat['WinRate']} for stat in commander_stats]
+            self.repeating_panel_1.items = data
+      except Exception as e:
+            print(f"Error occurred while populating commander data grid: {str(e)}")
+
+    def populate_player_grid(self):
+      try:
+            player_stats = self.calculate_player_stats()
+            data = [{'player_name': stat['Player'], 'player_played': stat['GamesPlayed'], 'player_won': stat['GamesWon'], 'player_rate': f"{stat['WinRate']:.2f}%"} for stat in player_stats]
+            self.repeating_panel_2.items = data
+      except Exception as e:
+            print(f"Error occurred while populating player data grid: {str(e)}")
+
+          
     def get_colour_counts(self):
         color_counts = {'White': 0, 'Blue': 0, 'Black': 0, 'Red': 0, 'Green': 0, 'Colourless': 0}
     
@@ -336,7 +350,8 @@ class Home(HomeTemplate):
         self.get_colour_stats()
         self.display_most_played_and_best_deck()
         self.display_colour_count()
-        self.populate_grid()
+        self.populate_commander_grid()
+        self.populate_player_grid()
 
     def button_1_click(self, **event_args):
         open_form('Home')
