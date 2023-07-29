@@ -91,6 +91,31 @@ components:
     properties: {}
     name: colour_counts
     layout_properties: {grid_position: 'ZZLFWT,GROFWE'}
+  - type: DataGrid
+    properties:
+      role: null
+      columns:
+      - {id: BBPRTF, title: Name, data_key: commander_name, $$hashKey: 'object:727'}
+      - {id: OHZBYG, title: Games Played, data_key: commander_played, $$hashKey: 'object:728'}
+      - {id: QHVDLH, title: Win Rate, data_key: commander_win, $$hashKey: 'object:729'}
+      auto_header: true
+      tooltip: ''
+      border: ''
+      foreground: ''
+      rows_per_page: 20
+      visible: true
+      wrap_on: never
+      show_page_controls: true
+      spacing_above: small
+      spacing_below: small
+      background: ''
+    name: commander_table
+    layout_properties: {grid_position: 'PIHZLJ,DUEAYD'}
+    components:
+    - type: RepeatingPanel
+      properties: {spacing_above: none, spacing_below: none, item_template: Home.RowTemplate3}
+      name: repeating_panel_1
+      layout_properties: {}
 - type: FlowPanel
   properties: {}
   name: navbar_links

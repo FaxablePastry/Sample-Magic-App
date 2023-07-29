@@ -216,7 +216,10 @@ class Home(HomeTemplate):
         print(colour_stats)
         return colour_stats
         
-
+    def populate_grid(self):
+      self.repeating_panel_1.items = [
+        {'commander_name':'Jeremy','commander_game':'3','commander_win':'33%'}
+      ]
     def get_colour_counts(self):
         color_counts = {'White': 0, 'Blue': 0, 'Black': 0, 'Red': 0, 'Green': 0, 'Colourless': 0}
     
@@ -333,6 +336,7 @@ class Home(HomeTemplate):
         self.get_colour_stats()
         self.display_most_played_and_best_deck()
         self.display_colour_count()
+        self.populate_grid()
 
     def button_1_click(self, **event_args):
         open_form('Home')
