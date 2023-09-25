@@ -68,22 +68,6 @@ components:
       layout_properties: {grid_position: 'QOJNQW,WJNEYW'}
   - type: ColumnPanel
     properties: {col_widths: '{}'}
-    name: column_panel_7
-    layout_properties: {grid_position: 'LLMATV,CEIJNI'}
-    components:
-    - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: Alphabet, font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_2
-      layout_properties: {grid_position: 'XRWEAL,AHKNQB'}
-    - type: Label
-      properties: {}
-      name: text_box_2
-      layout_properties: {grid_position: 'IUJDWX,OCPQDW'}
-  - type: ColumnPanel
-    properties: {col_widths: '{}'}
     name: column_panel_8
     layout_properties: {grid_position: 'LLMATV,FVIZJA'}
     components:
