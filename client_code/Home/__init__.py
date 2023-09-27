@@ -96,45 +96,56 @@ class Home(HomeTemplate):
             print(f"Error occurred while populating data grid: {str(e)}")
 
 
-    def calculate_player_stats(self):
-        player_stats = []
+   def calculate_player_stats(self):
+    player_stats = []
 
-        # Retrieve all the records from the match_results table
-        records = app_tables.match_results.search()
+    # Retrieve all the records from the match_results table
+    records = app_tables.match_results.search()
 
-        # Count the games played and games won for each player
-        player_stats_dict = {}
-        for record in records:
-            player = record['Player']
-            player_position = record['PlayerPosition']
+    # Count the games played and games won for each player
+    player_stats_dict = {}
+    player_winstreaks = {}  # Dictionary to track winstreaks
+    for record in records:
+        player = record['Player']
+        player_position = record['PlayerPosition']
 
-            if player not in player_stats_dict:
-                player_stats_dict[player] = {'games_played': 0, 'games_won': 0}
+        if player not in player_stats_dict:
+            player_stats_dict[player] = {'games_played': 0, 'games_won': 0}
+            player_winstreaks[player] = {'current_winstreak': 0, 'longest_winstreak': 0}
 
-            player_stats_dict[player]['games_played'] += 1
-            if player_position == 1:
-                player_stats_dict[player]['games_won'] += 1
+        player_stats_dict[player]['games_played'] += 1
+        if player_position == 1:
+            player_stats_dict[player]['games_won'] += 1
+            player_winstreaks[player]['current_winstreak'] += 1
+            # Check if the current winstreak exceeds the longest winstreak
+            if player_winstreaks[player]['current_winstreak'] > player_winstreaks[player]['longest_winstreak']:
+                player_winstreaks[player]['longest_winstreak'] = player_winstreaks[player]['current_winstreak']
+        else:
+            player_winstreaks[player]['current_winstreak'] = 0  # Reset winstreak on loss
 
-        # Calculate the win rate for each player
-        for player, stats in player_stats_dict.items():
-            games_played = stats['games_played']
-            games_won = stats['games_won']
-            win_rate = (games_won / games_played) * 100 if games_played > 0 else 0
-            win_rate = round(win_rate,2)
+    # Calculate the win rate and include winstreak information for each player
+    for player, stats in player_stats_dict.items():
+        games_played = stats['games_played']
+        games_won = stats['games_won']
+        win_rate = (games_won / games_played) * 100 if games_played > 0 else 0
+        win_rate = round(win_rate, 2)
 
-            # Create a dictionary with the player statistics
-            player_stat = {
-                'Player': player,
-                'GamesPlayed': games_played,
-                'GamesWon': games_won,
-                'WinRate': win_rate
-            }
-            player_stats.append(player_stat)
+        # Include winstreak information in the player statistics
+        player_stat = {
+            'Player': player,
+            'GamesPlayed': games_played,
+            'GamesWon': games_won,
+            'WinRate': win_rate,
+            'CurrentWinstreak': player_winstreaks[player]['current_winstreak'],
+            'LongestWinstreak': player_winstreaks[player]['longest_winstreak']
+        }
+        player_stats.append(player_stat)
 
-        # Sort the player_stats list by WinRate in descending order
-        player_stats.sort(key=lambda x: x['WinRate'], reverse=True)
+    # Sort the player_stats list by WinRate in descending order
+    player_stats.sort(key=lambda x: x['WinRate'], reverse=True)
 
-        return player_stats
+    return player_stats
+
 
     def populate_player_data_grid(self):
         try:
@@ -361,3 +372,8 @@ class Home(HomeTemplate):
 
     def button_3_click(self, **event_args):
         open_form('AddCommander')
+
+    def text_box_2_pressed_enter(self, **event_args):
+      """This method is called when the user presses Enter in this text box"""
+      pass
+
