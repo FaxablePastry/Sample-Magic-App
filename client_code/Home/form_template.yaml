@@ -50,11 +50,10 @@ components:
       properties: {}
       name: player_deck
       layout_properties: {grid_position: 'PRXREQ,QFLUIO'}
-  - type: TextBox
+  - type: RichText
     properties: {}
     name: win_streak
-    layout_properties: {grid_position: 'UXDHPV,WSGVEQ'}
-    event_bindings: {pressed_enter: text_box_2_pressed_enter}
+    layout_properties: {grid_position: 'QMLBIP,FDIMTM'}
   - type: ColumnPanel
     properties: {col_widths: '{}'}
     name: column_panel_2

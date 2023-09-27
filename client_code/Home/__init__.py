@@ -96,55 +96,55 @@ class Home(HomeTemplate):
             print(f"Error occurred while populating data grid: {str(e)}")
 
 
-   def calculate_player_stats(self):
-    player_stats = []
-
-    # Retrieve all the records from the match_results table
-    records = app_tables.match_results.search()
-
-    # Count the games played and games won for each player
-    player_stats_dict = {}
-    player_winstreaks = {}  # Dictionary to track winstreaks
-    for record in records:
-        player = record['Player']
-        player_position = record['PlayerPosition']
-
-        if player not in player_stats_dict:
-            player_stats_dict[player] = {'games_played': 0, 'games_won': 0}
-            player_winstreaks[player] = {'current_winstreak': 0, 'longest_winstreak': 0}
-
-        player_stats_dict[player]['games_played'] += 1
-        if player_position == 1:
-            player_stats_dict[player]['games_won'] += 1
-            player_winstreaks[player]['current_winstreak'] += 1
-            # Check if the current winstreak exceeds the longest winstreak
-            if player_winstreaks[player]['current_winstreak'] > player_winstreaks[player]['longest_winstreak']:
-                player_winstreaks[player]['longest_winstreak'] = player_winstreaks[player]['current_winstreak']
-        else:
-            player_winstreaks[player]['current_winstreak'] = 0  # Reset winstreak on loss
-
-    # Calculate the win rate and include winstreak information for each player
-    for player, stats in player_stats_dict.items():
-        games_played = stats['games_played']
-        games_won = stats['games_won']
-        win_rate = (games_won / games_played) * 100 if games_played > 0 else 0
-        win_rate = round(win_rate, 2)
-
-        # Include winstreak information in the player statistics
-        player_stat = {
-            'Player': player,
-            'GamesPlayed': games_played,
-            'GamesWon': games_won,
-            'WinRate': win_rate,
-            'CurrentWinstreak': player_winstreaks[player]['current_winstreak'],
-            'LongestWinstreak': player_winstreaks[player]['longest_winstreak']
-        }
-        player_stats.append(player_stat)
-
-    # Sort the player_stats list by WinRate in descending order
-    player_stats.sort(key=lambda x: x['WinRate'], reverse=True)
-
-    return player_stats
+    def calculate_player_stats(self):
+      player_stats = []
+  
+      # Retrieve all the records from the match_results table
+      records = app_tables.match_results.search()
+  
+      # Count the games played and games won for each player
+      player_stats_dict = {}
+      player_winstreaks = {}  # Dictionary to track winstreaks
+      for record in records:
+          player = record['Player']
+          player_position = record['PlayerPosition']
+  
+          if player not in player_stats_dict:
+              player_stats_dict[player] = {'games_played': 0, 'games_won': 0}
+              player_winstreaks[player] = {'current_winstreak': 0, 'longest_winstreak': 0}
+  
+          player_stats_dict[player]['games_played'] += 1
+          if player_position == 1:
+              player_stats_dict[player]['games_won'] += 1
+              player_winstreaks[player]['current_winstreak'] += 1
+              # Check if the current winstreak exceeds the longest winstreak
+              if player_winstreaks[player]['current_winstreak'] > player_winstreaks[player]['longest_winstreak']:
+                  player_winstreaks[player]['longest_winstreak'] = player_winstreaks[player]['current_winstreak']
+          else:
+              player_winstreaks[player]['current_winstreak'] = 0  # Reset winstreak on loss
+  
+      # Calculate the win rate and include winstreak information for each player
+      for player, stats in player_stats_dict.items():
+          games_played = stats['games_played']
+          games_won = stats['games_won']
+          win_rate = (games_won / games_played) * 100 if games_played > 0 else 0
+          win_rate = round(win_rate, 2)
+  
+          # Include winstreak information in the player statistics
+          player_stat = {
+              'Player': player,
+              'GamesPlayed': games_played,
+              'GamesWon': games_won,
+              'WinRate': win_rate,
+              'CurrentWinstreak': player_winstreaks[player]['current_winstreak'],
+              'LongestWinstreak': player_winstreaks[player]['longest_winstreak']
+          }
+          player_stats.append(player_stat)
+  
+      # Sort the player_stats list by WinRate in descending order
+      player_stats.sort(key=lambda x: x['WinRate'], reverse=True)
+  
+      return player_stats
 
 
     def populate_player_data_grid(self):
@@ -186,6 +186,28 @@ class Home(HomeTemplate):
             self.commander_textbox.text = stats_text
         except Exception as e:
             print(f"Error occurred while populating commander played data: {str(e)}")
+
+    def populate_player_data_grid(self):
+      try:
+          commander_stats = self.get_commander_stats()
+          player_stats = self.calculate_player_stats()
+          stats_text = ""
+          for stat in player_stats:
+              stats_text += f"{stat['Player']}, Played: {stat['GamesPlayed']}, Won: {stat['GamesWon']}, Win Rate: {stat['WinRate']:.2f}%\n"
+              stats_text += f"Current Winstreak: {stat['CurrentWinstreak']}, Longest Winstreak: {stat['LongestWinstreak']}\n\n"
+  
+          # Sort the commander_stats list alphabetically by Commander
+          commander_stats.sort(key=lambda x: x['Commander'])
+  
+          stats_text_alphabetical = ""
+          for stat in commander_stats:
+              stats_text_alphabetical += f"{stat['Commander']}, Played: {stat['GamesPlayed']}, Won: {stat['GamesWon']}, Win Rate: {stat['WinRate']}%\n"
+  
+          self.player_textbox.text = stats_text
+          self.text_box_2.text = stats_text_alphabetical
+      except Exception as e:
+          print(f"Error occurred while populating player data grid: {str(e)}")
+
     
     def get_colour_stats(self):
         colour_stats = []
@@ -243,6 +265,21 @@ class Home(HomeTemplate):
             self.repeating_panel_2.items = data
       except Exception as e:
             print(f"Error occurred while populating player data grid: {str(e)}")
+
+    def display_winstreak(self):
+        try:
+            player_stats = self.calculate_player_stats()
+            winstreak_text = ""
+            for stat in player_stats:
+                winstreak_text += f"{stat['Player']}'s Current Winstreak: {stat['CurrentWinstreak']}, Longest Winstreak: {stat['LongestWinstreak']}\n"
+            
+            # Set the content of the win_streak rich text box
+            self.win_streak.content = winstreak_text
+            print(winstreak_text)
+        except Exception as e:
+            print(f"Error occurred while displaying winstreak: {str(e)}")
+
+
 
           
     def get_colour_counts(self):
@@ -363,6 +400,7 @@ class Home(HomeTemplate):
         self.display_colour_count()
         self.populate_commander_grid()
         self.populate_player_grid()
+        self.display_winstreak()
 
     def button_1_click(self, **event_args):
         open_form('Home')
@@ -372,8 +410,3 @@ class Home(HomeTemplate):
 
     def button_3_click(self, **event_args):
         open_form('AddCommander')
-
-    def text_box_2_pressed_enter(self, **event_args):
-      """This method is called when the user presses Enter in this text box"""
-      pass
-
