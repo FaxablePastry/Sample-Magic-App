@@ -74,6 +74,10 @@ class AddCommander(AddCommanderTemplate):
         self.colourless.checked = False
         self.builder.selected_value = None
 
+  
+        # Show a success message as a popup
+        anvil.server.alert("Commander added successfully!", title="Success")
+
     def button_1_click(self, **event_args):
         open_form('Home')
 
@@ -82,3 +86,11 @@ class AddCommander(AddCommanderTemplate):
 
     def button_3_click(self, **event_args):
         open_form('AddCommander')
+
+    def button_4_click(self, **event_args):
+        open_form('CommanderStats')
+
+    def button_5_click(self, **event_args):
+      open_form('PlayerPositions')
+
+

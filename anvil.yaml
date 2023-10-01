@@ -40,7 +40,7 @@ db_schema:
     - name: Builder
       admin_ui: {order: 7, width: 200}
       type: string
-    title: Table 1
+    title: COMMANDERS
   match_results:
     client: full
     server: full
@@ -57,5 +57,5 @@ db_schema:
     - name: PlayerCount
       admin_ui: {order: 3, width: 200}
       type: number
-    title: Table 2
+    title: MATCH RESULTS
 renamed: true

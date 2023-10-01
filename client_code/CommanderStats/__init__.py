@@ -1,10 +1,10 @@
-from ._anvil_designer import HomeTemplate
 from anvil import *
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-
-class Home(HomeTemplate):
+from anvil.tables import app_tables
+from ._anvil_designer import CommanderStatsTemplate
+class CommanderStats(CommanderStatsTemplate):
     def __init__(self, **properties):
         # Set Form properties and Data Bindings.
         self.init_components(**properties)
@@ -40,14 +40,14 @@ class Home(HomeTemplate):
             games_won = stats['games_won']
             win_rate = self.calculate_win_rate(games_played, games_won)
 
-            # print(f"Commander: {commander}, Win Rate: {win_rate}")
+            print(f"Commander: {commander}, Win Rate: {win_rate}")
 
     def get_commander_stats(self):
         commander_stats = []
     
         # Retrieve all the records from the match_results table
         records = app_tables.match_results.search()
-        # print(f"Number of records: {len(records)}")  # Print the number of records retrieved
+        print(f"Number of records: {len(records)}")  # Print the number of records retrieved
     
         # Count the games played and games won for each commander
         commander_stats_dict = {}
@@ -161,6 +161,8 @@ class Home(HomeTemplate):
             for stat in commander_stats:
                 stats_text_alphabetical += f"{stat['Commander']}, Played: {stat['GamesPlayed']}, Won: {stat['GamesWon']}, Win Rate: {stat['WinRate']}%\n"
     
+            self.player_textbox.text = stats_text
+            self.text_box_2.text = stats_text_alphabetical
         except Exception as e:
             print(f"Error occurred while populating player data grid: {str(e)}")
 
@@ -201,6 +203,8 @@ class Home(HomeTemplate):
           for stat in commander_stats:
               stats_text_alphabetical += f"{stat['Commander']}, Played: {stat['GamesPlayed']}, Won: {stat['GamesWon']}, Win Rate: {stat['WinRate']}%\n"
   
+          self.player_textbox.text = stats_text
+          self.text_box_2.text = stats_text_alphabetical
       except Exception as e:
           print(f"Error occurred while populating player data grid: {str(e)}")
 
@@ -243,9 +247,16 @@ class Home(HomeTemplate):
             colour_stats.append(colour_stat)
 
 
-        # print(colour_stats)
+        print(colour_stats)
         return colour_stats
         
+    def populate_commander_grid(self):
+      try:
+            commander_stats = self.get_commander_stats()
+            data = [{'commander_name': stat['Commander'], 'commander_played': stat['GamesPlayed'], 'commander_won': stat['GamesWon'], 'commander_win': stat['WinRate']} for stat in commander_stats]
+            self.repeating_panel_1.items = data
+      except Exception as e:
+            print(f"Error occurred while populating commander data grid: {str(e)}")
 
     def populate_player_grid(self):
       try:
@@ -264,7 +275,7 @@ class Home(HomeTemplate):
             
             # Set the content of the win_streak rich text box
             self.win_streak.content = winstreak_text
-            # print(winstreak_text)
+            print(winstreak_text)
         except Exception as e:
             print(f"Error occurred while displaying winstreak: {str(e)}")
 
@@ -272,79 +283,39 @@ class Home(HomeTemplate):
 
           
     def get_colour_counts(self):
-        # Create a set to store unique winning decks
-        unique_decks = set()
-    
-        # Retrieve all the records from the match_results table
-        records = app_tables.match_results.search()
-    
-        # Add unique winning decks to the set
-        for record in records:
-            if record['PlayerPosition'] == 1:
-                unique_decks.add(record['Commander'])
-    
-        # Initialize color counts
         color_counts = {'White': 0, 'Blue': 0, 'Black': 0, 'Red': 0, 'Green': 0, 'Colourless': 0}
     
-        # Retrieve the colors for each unique winning deck and update the color counts
-        for commander in unique_decks:
-            commander_record = app_tables.commanders.get(Commander=commander)
-            color_counts['White'] += commander_record['White']
-            color_counts['Blue'] += commander_record['Blue']
-            color_counts['Black'] += commander_record['Black']
-            color_counts['Red'] += commander_record['Red']
-            color_counts['Green'] += commander_record['Green']
-            color_counts['Colourless'] += commander_record['Colourless']
+        # Retrieve all the records from the commanders table
+        records = app_tables.commanders.search()
+    
+        # Count the colors for each commander
+        for record in records:
+            white = record['White']
+            blue = record['Blue']
+            black = record['Black']
+            red = record['Red']
+            green = record['Green']
+            colourless = record['Colourless']
+            # Update the total counts
+            color_counts['White'] += white
+            color_counts['Blue'] += blue
+            color_counts['Black'] += black
+            color_counts['Red'] += red
+            color_counts['Green'] += green
+            color_counts['Colourless'] += colourless
     
         return color_counts
 
     def display_colour_count(self):
+        try:
             color_counts = self.get_colour_counts()
+            stats_text = ""
+            for color, count in color_counts.items():
+                stats_text += f"{color}: {count}\n"
     
-            # Create a string to display the color counts
-            color_counts_text = f"White: {color_counts['White']}, Blue: {color_counts['Blue']}, " \
-                                f"Black: {color_counts['Black']}, Red: {color_counts['Red']}, " \
-                                f"Green: {color_counts['Green']}, Colourless: {color_counts['Colourless']}"
-    
-            # Set the text of the label to display the color counts
-            self.colour_counts.text = color_counts_text
-
-    def get_top_5_deck_colors(self):
-        # Get the top 5 commanders with the highest win rates
-        commander_stats = self.get_commander_stats()
-        top_5_commanders = sorted(commander_stats, key=lambda x: x['WinRate'], reverse=True)[:5]
-    
-        # Initialize color counts for the top 5 decks
-        top_5_color_counts = {'White': 0, 'Blue': 0, 'Black': 0, 'Red': 0, 'Green': 0, 'Colourless': 0}
-    
-        # Retrieve the colors for the top 5 decks and update the color counts
-        for commander_stat in top_5_commanders:
-            commander_record = app_tables.commanders.get(Commander=commander_stat['Commander'])
-            top_5_color_counts['White'] += commander_record['White']
-            top_5_color_counts['Blue'] += commander_record['Blue']
-            top_5_color_counts['Black'] += commander_record['Black']
-            top_5_color_counts['Red'] += commander_record['Red']
-            top_5_color_counts['Green'] += commander_record['Green']
-            top_5_color_counts['Colourless'] += commander_record['Colourless']
-    
-        return top_5_color_counts
-        return top_5_color_counts
-
-
-    def display_top_5_colour_count(self):
-        print("Function is being called")  # Add this line
-        top_5_color_counts = self.get_top_5_deck_colors()
-    
-        # Create a string to display the color counts
-        top_color_counts_text = (
-            f"White: {top_5_color_counts['White']}, Blue: {top_5_color_counts['Blue']}, "
-            f"Black: {top_5_color_counts['Black']}, Red: {top_5_color_counts['Red']}, "
-            f"Green: {top_5_color_counts['Green']}, Colourless: {top_5_color_counts['Colourless']}"
-        )
-    
-        # Set the text of the Rich Text Box to display the color counts
-        self.top_5.text = top_color_counts_text
-
+            self.colour_counts.text = stats_text
+        except Exception as e:
+            print(f"Error occurred while populating colour data: {str(e)}")
 
 
 
@@ -427,23 +398,24 @@ class Home(HomeTemplate):
         self.get_colour_stats()
         self.display_most_played_and_best_deck()
         self.display_colour_count()
+        self.populate_commander_grid()
         self.populate_player_grid()
         self.display_winstreak()
-        self.get_top_5_deck_colors()
-        self.display_top_5_colour_count()
+
 
     def button_1_click(self, **event_args):
         open_form('Home')
-
+  
     def button_2_click(self, **event_args):
-        open_form('AddMatch')
-
+       open_form('AddMatch')
+  
     def button_3_click(self, **event_args):
-        open_form('AddCommander')
-
+       open_form('AddCommander')
+  
     def button_4_click(self, **event_args):
         open_form('CommanderStats')
 
     def button_5_click(self, **event_args):
-      open_form('PlayerPositions')
+       open_form('PlayerPositions')
+
 

@@ -57,7 +57,14 @@ class AddMatch(AddMatchTemplate):
 
     def button_3_click(self, **event_args):
         open_form('AddCommander')
-    
+      
+    def button_4_click(self, **event_args):
+        open_form('CommanderStats')
+
+    def button_5_click(self, **event_args):
+        open_form('PlayerPositions')
+
+  
     def get_commander_names_from_table(self):
         commander_names = []
         
@@ -91,3 +98,5 @@ class AddMatch(AddMatchTemplate):
             row_panel.get_components()[0].selected_value = None
             row_panel.get_components()[1].selected_value = None
             row_panel.get_components()[2].selected_value = None
+        # Show a success message as a popup
+        PlayerPositionsanvil.server.alert("Commander added successfully!", title="Success")
