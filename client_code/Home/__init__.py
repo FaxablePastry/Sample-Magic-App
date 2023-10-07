@@ -328,7 +328,6 @@ class Home(HomeTemplate):
             top_5_color_counts['Colourless'] += commander_record['Colourless']
     
         return top_5_color_counts
-        return top_5_color_counts
 
 
     def display_top_5_colour_count(self):
