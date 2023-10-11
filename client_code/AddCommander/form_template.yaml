@@ -133,7 +133,7 @@ components:
       border: ''
       enabled: true
       foreground: ''
-      items: [Benas, Evan, Jed, Nils]
+      items: [Benas, Evan, Jed, Nils, Bev]
       visible: true
       font_size: null
       font: ''
