@@ -61,36 +61,69 @@ class PlayerPositions(PlayerPositionsTemplate):
     return player_stats
 
   def display_player_positions(self):
+    # Retrieve all the records from the match_results table
+    records = app_tables.match_results.search()
+    
+    # Create a dictionary to count player positions
+    player_positions = {}
+    
+    # Count player positions
+    for record in records:
+        player = record['Player']
+        position = record['PlayerPosition']
+        
+        if player not in player_positions:
+            player_positions[player] = {1: 0, 2: 0, 3: 0, 4: 0}  # Initialize positions with 0 counts
+        
+        player_positions[player][position] += 1
+    
+    # Sort the player_positions dictionary by the count of first places (position 1)
+    sorted_player_positions = dict(sorted(player_positions.items(), key=lambda item: item[1][1], reverse=True))
+    
+    # Create a string to display player positions
+    player_positions_text = ""
+    
+    for player, positions in sorted_player_positions.items():
+        player_positions_text += f"Player: {player}, Positions: "
+        for position in range(1, 5):  # Iterate from 1 to 4
+            count = positions.get(position, 0)  # Get the count for the position or default to 0 if not found
+            player_positions_text += f"{position}: {count}, "
+        player_positions_text = player_positions_text.rstrip(', ')  # Remove the trailing comma and space
+        player_positions_text += "\n"
+    
+    # Set the text of the label to display player positions
+    self.label_1.text = player_positions_text
+
+  def display_player_positions_repeating_panel(self):
       # Retrieve all the records from the match_results table
       records = app_tables.match_results.search()
-      
+
       # Create a dictionary to count player positions
       player_positions = {}
-      
-      # Count player positions
       for record in records:
           player = record['Player']
           position = record['PlayerPosition']
-          
-          if player not in player_positions:
-              player_positions[player] = {1: 0, 2: 0, 3: 0, 4: 0}  # Initialize positions with 0 counts
-          
-          player_positions[player][position] += 1
-      
-      # Create a string to display player positions
-      player_positions_text = ""
-      
-      for player, positions in player_positions.items():
-          player_positions_text += f"{player}, Positions: "
-          for position in range(1, 5):  # Iterate from 1 to 4
-              count = positions.get(position, 0)  # Get the count for the position or default to 0 if not found
-              player_positions_text += f"{position} : {count}. "
-          player_positions_text = player_positions_text.rstrip(', ')  # Remove the trailing comma and space
-          player_positions_text += "\n"
-          player_positions_text += "\n"
-        
-      self.label_1.text = player_positions_text
 
+          if player not in player_positions:
+              player_positions[player] = {1: 0, 2: 0, 3: 0, 4: 0}
+
+          player_positions[player][position] += 1
+
+      # Sort the player_positions dictionary by the count of first places (position 1)
+      sorted_player_positions = dict(sorted(player_positions.items(), key=lambda item: item[1][1], reverse=True))
+
+      # Clear the RepeatingPanel
+      self.repeating_panel_1.items = []
+
+      # Populate the RepeatingPanel
+      for player, positions in sorted_player_positions.items():
+          self.repeating_panel_1.items.append({
+              'column_1': player,
+              'column_2': positions.get(1, 0),
+              'column_3': positions.get(2, 0),
+              'column_4': positions.get(3, 0),
+              'column_5': positions.get(4, 0),
+          })
 
   
   def form_show(self, **event_args):
