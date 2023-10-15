@@ -22,10 +22,10 @@ class PlayerPositions(PlayerPositionsTemplate):
       for record in records:
           player = record['Player']
           player_position = record['PlayerPosition']
-          player_count = record['PlayerCount']  # New column for PlayerCount
+          player_count = record['PlayerCount']
   
           if player not in player_stats_dict:
-              player_stats_dict[player] = {'games_played': 0, 'games_won': 0, 'points': 0}  # Initialize points
+              player_stats_dict[player] = {'games_played': 0, 'games_won': 0, 'points': 0}
               player_winstreaks[player] = {'current_winstreak': 0, 'longest_winstreak': 0}
   
           player_stats_dict[player]['games_played'] += 1
@@ -36,18 +36,21 @@ class PlayerPositions(PlayerPositionsTemplate):
               if player_winstreaks[player]['current_winstreak'] > player_winstreaks[player]['longest_winstreak']:
                   player_winstreaks[player]['longest_winstreak'] = player_winstreaks[player]['current_winstreak']
   
-              # Calculate points based on PlayerCount
-              if player_count == 4:
-                  player_stats_dict[player]['points'] += 6
-              elif player_count == 3:
-                  player_stats_dict[player]['points'] += 5
-              elif player_count == 2:
-                  player_stats_dict[player]['points'] += 4
-              elif player_count == 1:
-                  player_stats_dict[player]['points'] += 4  # Modify this based on your rules
-  
-          else:
-              player_winstreaks[player]['current_winstreak'] = 0  # Reset winstreak on loss
+          # Calculate points based on player position and the number of players
+          if player_position == 1 and player_count == 4:
+              player_stats_dict[player]['points'] += 6
+          elif player_position == 2 and player_count == 4:
+              player_stats_dict[player]['points'] += 4
+          elif player_position == 3 and player_count == 4:
+              player_stats_dict[player]['points'] += 2
+          elif player_position == 4 and player_count == 4:
+              player_stats_dict[player]['points'] += 1
+          elif player_position == 1 and player_count == 3:
+              player_stats_dict[player]['points'] += 5
+          elif player_position == 2 and player_count == 3:
+              player_stats_dict[player]['points'] += 3
+          elif player_position == 3 and player_count == 3:
+              player_stats_dict[player]['points'] += 1
   
       # Calculate the win rate and include winstreak information for each player
       for player, stats in player_stats_dict.items():
@@ -55,6 +58,7 @@ class PlayerPositions(PlayerPositionsTemplate):
           games_won = stats['games_won']
           win_rate = (games_won / games_played) * 100 if games_played > 0 else 0
           win_rate = round(win_rate, 2)
+          player_points = stats['points']
   
           # Include winstreak and points information in the player statistics
           player_stat = {
@@ -62,16 +66,17 @@ class PlayerPositions(PlayerPositionsTemplate):
               'GamesPlayed': games_played,
               'GamesWon': games_won,
               'WinRate': win_rate,
+              'Points': player_points,
               'CurrentWinstreak': player_winstreaks[player]['current_winstreak'],
-              'LongestWinstreak': player_winstreaks[player]['longest_winstreak'],
-              'Points': stats['points']  # Add points to player statistics
+              'LongestWinstreak': player_winstreaks[player]['longest_winstreak']
           }
           player_stats.append(player_stat)
-  
-      # Sort the player_stats list by Points in descending order
-      player_stats.sort(key=lambda x: x['Points'], reverse=True)
+          print(f"{player}: Points = {player_points}")
+      # Sort the player_stats list by Points and then by WinRate in descending order
+      player_stats.sort(key=lambda x: (x['Points'], x['WinRate']), reverse=True)
   
       return player_stats
+
 
   def populate_player_positions_repeating_panel(self):
       # Retrieve all the records from the match_results table
@@ -101,13 +106,13 @@ class PlayerPositions(PlayerPositionsTemplate):
               '3rd Place': positions[3],
               '4th Place': positions[4]
           })
-      print(data)
       # Set the RepeatingPanel items to the list of dictionaries
       data = [{'column_1': player, 'column_2': positions[1], 'column_3': positions[2], 'column_4': positions[3], 'column_5': positions[4]} for player, positions in sorted_player_positions.items()]
       self.repeating_panel_1.items = data
 
   
   def form_show(self, **event_args):
+      self.
       self.populate_player_positions_repeating_panel()
 
   def button_1_click(self, **event_args):
