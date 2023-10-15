@@ -67,10 +67,6 @@ components:
   name: column_panel_2
   layout_properties: {slot: default}
   components:
-  - type: Label
-    properties: {}
-    name: label_1
-    layout_properties: {slot: default, grid_position: 'XBNURP,FCJUMD'}
   - type: DataGrid
     properties:
       role: null
