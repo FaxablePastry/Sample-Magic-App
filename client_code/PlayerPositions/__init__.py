@@ -94,8 +94,9 @@ class PlayerPositions(PlayerPositionsTemplate):
     # Set the text of the label to display player positions
     self.label_1.text = player_positions_text
 
-  def display_player_positions_repeating_panel(self):
+  def display_player_positions_data_grid(self):
       # Retrieve all the records from the match_results table
+      print("Getting the player data")
       records = app_tables.match_results.search()
 
       # Create a dictionary to count player positions
@@ -114,20 +115,17 @@ class PlayerPositions(PlayerPositionsTemplate):
 
       # Clear the RepeatingPanel
       self.repeating_panel_1.items = []
+      print(sorted_player_positions)
 
       # Populate the RepeatingPanel
       for player, positions in sorted_player_positions.items():
-          self.repeating_panel_1.items.append({
-              'column_1': player,
-              'column_2': positions.get(1, 0),
-              'column_3': positions.get(2, 0),
-              'column_4': positions.get(3, 0),
-              'column_5': positions.get(4, 0),
-          })
+          row = {'column_1': player, 'column_2': positions[1], 'column_3': positions[2], 'column_4': positions[3], 'column_5': positions[4]}
+          self.repeating_panel_1.items.append(row)
 
   
   def form_show(self, **event_args):
       self.display_player_positions()
+      self.display_player_positions_data_grid()
 
   def button_1_click(self, **event_args):
       open_form('Home')
