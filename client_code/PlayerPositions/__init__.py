@@ -81,6 +81,7 @@ class PlayerPositions(PlayerPositionsTemplate):
   def populate_player_positions_repeating_panel(self):
       # Retrieve all the records from the match_results table
       records = app_tables.match_results.search()
+      player_stats = self.calculate_player_stats()
   
       # Create a dictionary to count player positions
       player_positions = {}
@@ -107,12 +108,12 @@ class PlayerPositions(PlayerPositionsTemplate):
               '4th Place': positions[4]
           })
       # Set the RepeatingPanel items to the list of dictionaries
-      data = [{'column_1': player, 'column_2': positions[1], 'column_3': positions[2], 'column_4': positions[3], 'column_5': positions[4]} for player, positions in sorted_player_positions.items()]
+      data = [{'column_1': player, 'column_2': positions[1], 'column_3': positions[2], 'column_4': positions[3], 'column_5': positions[4], 'column_6':player_stats[player_points] } for player, positions in sorted_player_positions.items()]
       self.repeating_panel_1.items = data
 
   
   def form_show(self, **event_args):
-      self.
+      self.calculate_player_stats()
       self.populate_player_positions_repeating_panel()
 
   def button_1_click(self, **event_args):
