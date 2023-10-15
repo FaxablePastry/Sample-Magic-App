@@ -91,6 +91,10 @@ components:
     name: data_grid_1
     layout_properties: {grid_position: 'MWXAAY,ICJRXR'}
     components:
+    - type: DataRowPanel
+      properties: {}
+      name: data_row_panel_1
+      layout_properties: {}
     - type: RepeatingPanel
       properties: {spacing_above: none, spacing_below: none, item_template: PlayerPositions.RowTemplate6}
       name: repeating_panel_1
