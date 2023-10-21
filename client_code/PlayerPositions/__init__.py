@@ -28,7 +28,9 @@ class PlayerPositions(PlayerPositionsTemplate):
           if player_position == 1:
               player_stats_dict[player]['games_won'] += 1
 
-          # Calculate points based on player position and the number of players
+          # Calculate points based on player position and the number of players#
+          ## Change this to nested if elif statements
+        
           if player_position == 1 and player_count == 4:
               player_stats_dict[player]['points'] += 6
           elif player_position == 2 and player_count == 4:
