@@ -203,48 +203,6 @@ class Home(HomeTemplate):
   
       except Exception as e:
           print(f"Error occurred while populating player data grid: {str(e)}")
-
-    
-    def get_colour_stats(self):
-        colour_stats = []
-    
-        # Retrieve all the records from the commanders table
-        records = app_tables.commanders.search()
-    
-        # Extract the color combination for each commander
-        for record in records:
-            commander = record['Commander']
-            white = record['White']
-            blue = record['Blue']
-            black = record['Black']
-            red = record['Red']
-            green = record['Green']
-            colourless = record['Colourless']
-    
-            color_combination = []
-            if white > 0:
-                color_combination.append('White')
-            if blue > 0:
-                color_combination.append('Blue')
-            if black > 0:
-                color_combination.append('Black')
-            if red > 0:
-                color_combination.append('Red')
-            if green > 0:
-                color_combination.append('Green')
-            if colourless > 0:
-                color_combination.append('Colourless')
-    
-            colour_stat = {
-                'Commander': commander,
-                'ColorCombination': color_combination
-            }
-    
-            colour_stats.append(colour_stat)
-
-
-        # print(colour_stats)
-        return colour_stats
         
 
     def populate_player_grid(self):
@@ -269,8 +227,6 @@ class Home(HomeTemplate):
             print(f"Error occurred while displaying winstreak: {str(e)}")
 
 
-
-          
     def get_colour_counts(self):
         # Create a set to store unique winning decks
         unique_decks = set()
@@ -399,7 +355,7 @@ class Home(HomeTemplate):
                 win_rate_best_performing = (stats['decks'][best_performing_deck]['win_count'] / stats['decks'][best_performing_deck]['played_count']) * 100
                 played_count_best_performing = stats['decks'][best_performing_deck]['played_count']
                 best_performing_decks[player] = (best_performing_deck, played_count_best_performing, win_rate_best_performing)
-    
+                            
             # Display the player's most played deck and its win rate
             stats_text = ""
             for player, (most_played_deck, played_count_most_played, win_rate_most_played) in most_played_decks.items():
@@ -408,7 +364,6 @@ class Home(HomeTemplate):
                 stats_text += f"Most Played Deck: {most_played_deck}, Played: {played_count_most_played}, Win Rate: {win_rate_most_played:.2f}%\n"
                 stats_text += f"Best Performing Deck: {best_performing_deck}, Played: {played_count_best_performing}, Win Rate: {win_rate_best_performing:.2f}%\n"
                 stats_text += "\n"
-    
             self.player_deck.text = stats_text
     
         except Exception as e:
@@ -420,7 +375,6 @@ class Home(HomeTemplate):
         self.populate_data_grid()
         self.populate_player_data_grid()
         self.populate_commander_played_data()
-        self.get_colour_stats()
         self.display_most_played_and_best_deck()
         self.display_colour_count()
         self.populate_player_grid()
