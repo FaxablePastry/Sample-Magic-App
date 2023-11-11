@@ -344,9 +344,6 @@ class Home(HomeTemplate):
         # Set the text of the Rich Text Box to display the color counts
         self.top_5.text = top_color_counts_text
 
-
-
-
   
     def display_most_played_and_best_deck(self):
         try:
