@@ -107,20 +107,18 @@ class AddMatch(AddMatchTemplate):
 
   
     def show_previous_game(self):
-        # Retrieve all rows from the match_results table
-        all_rows = app_tables.match_results.search()
+        # Retrieve all rows from the match_results table, ordered by 'game_ID' in descending order
+        all_rows = app_tables.match_results.search(tables.order_by('game_ID', ascending=False))
     
-        # Find the maximum game_ID
-        last_used_game_ID = max(row['game_ID'] for row in all_rows) if all_rows else 0
-    
-        # Fetch details of all players in the latest game_ID
-        latest_game_details = app_tables.match_results.search(tables.order_by('game_ID', ascending=False, **{'game_ID':last_used_game_ID}))
-    
-        if latest_game_details:
-            # Display details of all players in the latest game_ID
+        if all_rows:
+            # Display details of the highest game_ID
+            highest_game = all_rows[0]
             previous_game_text = "Previous Game:\n"
-            for entry in latest_game_details:
-                previous_game_text += f"Player: {entry['Player']}, Commander: {entry['Commander']}, Position: {entry['PlayerPosition']}\n"
+    
+            # Loop through all rows with the highest game_ID
+            for entry in all_rows:
+                if entry['game_ID'] == highest_game['game_ID']:
+                    previous_game_text += f"Player: {entry['Player']}, Commander: {entry['Commander']}, Position: {entry['PlayerPosition']}\n"
     
             self.previous_game.text = previous_game_text
         else:
@@ -137,4 +135,18 @@ class AddMatch(AddMatchTemplate):
         # Show a success message as a popup
         PlayerPositionsanvil.server.alert("Commander added successfully!", title="Success")
 
-
+    def button_6_click(self, **event_args):
+    # Retrieve all rows from the match_results table, ordered by 'game_ID' in descending order
+      all_rows = app_tables.match_results.search(tables.order_by('game_ID', ascending=False))
+  
+      if all_rows:
+          # Find the highest game_ID
+          highest_game = all_rows[0]
+  
+          # Delete all rows with the highest game_ID
+          for entry in all_rows:
+              if entry['game_ID'] == highest_game['game_ID']:
+                  entry.delete_row()
+  
+          # Refresh the displayed game after deletion
+          self.show_previous_game()
