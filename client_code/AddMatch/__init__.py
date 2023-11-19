@@ -79,17 +79,32 @@ class AddMatch(AddMatchTemplate):
         return commander_names
 
     def button_4_click(self, **event_args):
+        # Retrieve all rows from the match_results table
+        all_rows = app_tables.match_results.search()
+    
+        # Find the maximum game_ID
+        last_used_game_ID = max(row['game_ID'] for row in all_rows) if all_rows else 0
+    
         # Iterate over the rows in the flow panel and save the values to the table
         for row_panel in self.flow_panel_1.get_components():
             player_name = row_panel.get_components()[0].selected_value
             commander_name = row_panel.get_components()[1].selected_value
             player_position = int(row_panel.get_components()[2].selected_value)  # Convert to integer
             player_count = int(self.drop_down_1.selected_value)
-          
+    
+            # Increment the game_ID
+            new_game_ID = last_used_game_ID + 1
+    
             # Save the values to the table
-            app_tables.match_results.add_row(Player=player_name, Commander=commander_name, PlayerPosition=player_position, PlayerCount=player_count)
-              # Clear the form fields
+            app_tables.match_results.add_row(Player=player_name, Commander=commander_name, PlayerPosition=player_position, PlayerCount=player_count, game_ID=new_game_ID)
+    
+        # Clear the form fields
         self.clear_form_fields()
+    
+        # Show a success message as a popup
+        anvil.server.alert("Match added successfully!", title="Success")
+
+
     
     def clear_form_fields(self):
         # Clear the selected values of the dropdowns
