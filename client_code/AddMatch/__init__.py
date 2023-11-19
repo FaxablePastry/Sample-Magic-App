@@ -101,7 +101,7 @@ class AddMatch(AddMatchTemplate):
     
         # Clear the form fields
         self.clear_form_fields()
-    
+        self.show_previous_game()
         # Show a success message as a popup
         anvil.server.alert("Commander added successfully!", title="Success")
 
@@ -133,7 +133,7 @@ class AddMatch(AddMatchTemplate):
             row_panel.get_components()[1].selected_value = None
             row_panel.get_components()[2].selected_value = None
         # Show a success message as a popup
-        PlayerPositionsanvil.server.alert("Commander added successfully!", title="Success")
+        PlayerPositionsanvil.server.alert("Game added successfully!", title="Success")
 
     def button_6_click(self, **event_args):
     # Retrieve all rows from the match_results table, ordered by 'game_ID' in descending order
