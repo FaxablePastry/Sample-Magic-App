@@ -107,19 +107,26 @@ class AddMatch(AddMatchTemplate):
 
   
     def show_previous_game(self):
-        # Find the highest game_ID
-        highest_game = app_tables.match_results.search(tables.order_by('game_ID', ascending=False))
-
-        if highest_game:
-            # Fetch details of all players in the highest game_ID
+        # Retrieve all rows from the match_results table
+        all_rows = app_tables.match_results.search()
+    
+        # Find the maximum game_ID
+        last_used_game_ID = max(row['game_ID'] for row in all_rows) if all_rows else 0
+    
+        # Fetch details of all players in the latest game_ID
+        latest_game_details = app_tables.match_results.search(tables.order_by('game_ID', ascending=False, **{'game_ID':last_used_game_ID}))
+    
+        if latest_game_details:
+            # Display details of all players in the latest game_ID
             previous_game_text = "Previous Game:\n"
-            for entry in highest_game:
+            for entry in latest_game_details:
                 previous_game_text += f"Player: {entry['Player']}, Commander: {entry['Commander']}, Position: {entry['PlayerPosition']}\n"
-
+    
             self.previous_game.text = previous_game_text
         else:
             # No previous game found
             self.previous_game.text = "No previous game available."
+
     
     def clear_form_fields(self):
         # Clear the selected values of the dropdowns
