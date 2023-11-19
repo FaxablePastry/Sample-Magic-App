@@ -10,8 +10,8 @@ components:
   components:
   - name: previous_game
     properties: {}
-    type: RichText
-    layout_properties: {grid_position: 'RTFBTZ,BKHHTL'}
+    type: Label
+    layout_properties: {grid_position: 'VDPFPH,LUHBFK'}
   - type: DropDown
     properties:
       role: null

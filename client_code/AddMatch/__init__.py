@@ -11,6 +11,7 @@ class AddMatch(AddMatchTemplate):
         self.selected_value = 0
         self.drop_down_1.set_event_handler('change', self.drop_down_1_change)
         self.update_dropdowns()
+        self.show_previous_game()
 
     def drop_down_1_change(self, **event_args):
         selected_value = self.drop_down_1.selected_value
@@ -102,9 +103,23 @@ class AddMatch(AddMatchTemplate):
         self.clear_form_fields()
     
         # Show a success message as a popup
-        anvil.server.alert("Match added successfully!", title="Success")
+        anvil.server.alert("Commander added successfully!", title="Success")
 
+  
+    def show_previous_game(self):
+        # Find the highest game_ID
+        highest_game = app_tables.match_results.search(tables.order_by('game_ID', ascending=False))
 
+        if highest_game:
+            # Fetch details of all players in the highest game_ID
+            previous_game_text = "Previous Game:\n"
+            for entry in highest_game:
+                previous_game_text += f"Player: {entry['Player']}, Commander: {entry['Commander']}, Position: {entry['PlayerPosition']}\n"
+
+            self.previous_game.text = previous_game_text
+        else:
+            # No previous game found
+            self.previous_game.text = "No previous game available."
     
     def clear_form_fields(self):
         # Clear the selected values of the dropdowns
