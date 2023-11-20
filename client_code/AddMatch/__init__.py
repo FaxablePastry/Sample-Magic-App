@@ -4,6 +4,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 from ._anvil_designer import AddMatchTemplate
 from anvil import TextBox, DropDown
+import time
 
 class AddMatch(AddMatchTemplate):
     def __init__(self, **properties):
@@ -102,9 +103,9 @@ class AddMatch(AddMatchTemplate):
         # Clear the form fields
         self.clear_form_fields()
         self.show_previous_game()
+        self.refresh_data_bindings()
+        self.show_previous_game()
         # Show a success message as a popup
-        anvil.server.alert("Commander added successfully!", title="Success")
-
   
     def show_previous_game(self):
         # Retrieve all rows from the match_results table, ordered by 'game_ID' in descending order
@@ -133,20 +134,22 @@ class AddMatch(AddMatchTemplate):
             row_panel.get_components()[1].selected_value = None
             row_panel.get_components()[2].selected_value = None
         # Show a success message as a popup
-        PlayerPositionsanvil.server.alert("Game added successfully!", title="Success")
 
     def button_6_click(self, **event_args):
-    # Retrieve all rows from the match_results table, ordered by 'game_ID' in descending order
-      all_rows = app_tables.match_results.search(tables.order_by('game_ID', ascending=False))
-  
-      if all_rows:
-          # Find the highest game_ID
-          highest_game = all_rows[0]
-  
-          # Delete all rows with the highest game_ID
-          for entry in all_rows:
-              if entry['game_ID'] == highest_game['game_ID']:
-                  entry.delete_row()
-  
-          # Refresh the displayed game after deletion
-          self.show_previous_game()
+        try:
+            # Find the highest game_ID
+            highest_game = app_tables.match_results.search(tables.order_by('game_ID', ascending=False))
+    
+            if highest_game:
+                # Delete the rows associated with the highest game_ID
+                for entry in highest_game:
+                    entry.delete_row()
+                
+                # Update the displayed information
+                self.show_previous_game()
+    
+            else:
+                # No previous game found
+                self.previous_game.text = "No previous game available."
+        except Exception as e:
+            print(f"Error occurred while deleting previous game: {str(e)}")
