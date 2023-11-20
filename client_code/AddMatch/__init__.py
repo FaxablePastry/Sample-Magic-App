@@ -140,9 +140,15 @@ class AddMatch(AddMatchTemplate):
         highest_game = app_tables.match_results.search(tables.order_by('game_ID', ascending=False))
 
         if highest_game:
-            # Delete the row with the highest game_ID
-            highest_game[0].delete()
-            # Refresh the form or perform any additional actions
+            game_id_to_delete = highest_game[0]['game_ID']
+            
+            # Fetch all rows with the highest game_ID
+            rows_to_delete = app_tables.match_results.search(tables.order_by('game_ID', ascending=False), **{'game_ID': game_id_to_delete})            
+            # Delete each row
+            for row in rows_to_delete:
+                row.delete()
+            
         else:
             # No previous game found
             anvil.server.alert("No previous game available.", title="Info")
+
