@@ -136,20 +136,13 @@ class AddMatch(AddMatchTemplate):
         # Show a success message as a popup
 
     def button_6_click(self, **event_args):
-        try:
-            # Find the highest game_ID
-            highest_game = app_tables.match_results.search(tables.order_by('game_ID', ascending=False))
-    
-            if highest_game:
-                # Delete the rows associated with the highest game_ID
-                for entry in highest_game:
-                    entry.delete_row()
-                
-                # Update the displayed information
-                self.show_previous_game()
-    
-            else:
-                # No previous game found
-                self.previous_game.text = "No previous game available."
-        except Exception as e:
-            print(f"Error occurred while deleting previous game: {str(e)}")
+        # Find the highest game_ID
+        highest_game = app_tables.match_results.search(tables.order_by('game_ID', ascending=False))
+
+        if highest_game:
+            # Delete the row with the highest game_ID
+            highest_game[0].delete()
+            # Refresh the form or perform any additional actions
+        else:
+            # No previous game found
+            anvil.server.alert("No previous game available.", title="Info")
