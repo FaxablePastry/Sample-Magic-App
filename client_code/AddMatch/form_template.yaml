@@ -12,6 +12,11 @@ components:
     properties: {}
     type: Label
     layout_properties: {grid_position: 'VDPFPH,LUHBFK'}
+  - name: button_6
+    properties: {text: Undo Previous Game, icon: 'fa:undo', border: '', role: filled-button}
+    type: Button
+    layout_properties: {grid_position: 'VDPFPH,FIOTNX'}
+    event_bindings: {click: button_6_click}
   - type: DropDown
     properties:
       role: null
@@ -40,18 +45,13 @@ components:
     name: flow_panel_1
     layout_properties: {grid_position: 'SZYJUF,OQNJXA'}
   - type: Button
-    properties: {role: elevated-button, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: Submit Match, font_size: null, font: '',
-      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: ''}
+    properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: 'theme:On Secondary', visible: true, text: Submit Match, font_size: null,
+      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: 'theme:On Primary Container', bold: false, underline: false, icon: ''}
     name: button_4
     layout_properties: {grid_position: 'XHJJCD,VOQLQW'}
     event_bindings: {click: button_4_click}
-  - name: button_6
-    properties: {text: Undo Previous Game, icon: 'fa:undo', border: '', role: filled-button}
-    type: Button
-    layout_properties: {grid_position: 'XSHONM,IGUFKB'}
-    event_bindings: {click: button_6_click}
 - type: FlowPanel
   properties: {}
   name: navbar_links

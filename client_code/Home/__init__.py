@@ -83,17 +83,6 @@ class Home(HomeTemplate):
     
         return commander_stats
 
-   
-    def populate_data_grid(self):
-        try:
-            commander_stats = self.get_commander_stats()
-            stats_text = ""
-            for stat in commander_stats:
-                stats_text += f"{stat['Commander']}, Played: {stat['GamesPlayed']}, Won: {stat['GamesWon']}, Win Rate: {stat['WinRate']}%\n"
-    
-            self.text_box_1.text = stats_text
-        except Exception as e:
-            print(f"Error occurred while populating data grid: {str(e)}")
 
 
     def calculate_player_stats(self):
@@ -163,27 +152,6 @@ class Home(HomeTemplate):
     
         except Exception as e:
             print(f"Error occurred while populating player data grid: {str(e)}")
-
-      
-    def populate_commander_played_data(self):
-        try:
-            commander_stats = self.get_commander_stats()
-    
-            # Sort the commander_stats list by the number of times a deck has been played in descending order
-            commander_stats.sort(key=lambda x: x['GamesPlayed'], reverse=True)
-    
-            stats_text = ""
-            for stat in commander_stats:
-                commander = stat['Commander']
-                games_played = stat['GamesPlayed']
-                games_won = stat['GamesWon']
-                win_rate = stat['WinRate']
-    
-                stats_text += f"{commander}, Played: {games_played}, Won: {games_won}, Win Rate: {win_rate}%\n"
-    
-            self.commander_textbox.text = stats_text
-        except Exception as e:
-            print(f"Error occurred while populating commander played data: {str(e)}")
 
     def populate_player_data_grid(self):
       try:
@@ -372,9 +340,7 @@ class Home(HomeTemplate):
 
 
     def form_show(self, **event_args):
-        self.populate_data_grid()
         self.populate_player_data_grid()
-        self.populate_commander_played_data()
         self.display_most_played_and_best_deck()
         self.display_colour_count()
         self.populate_player_grid()

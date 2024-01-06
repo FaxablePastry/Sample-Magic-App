@@ -89,38 +89,6 @@ components:
       properties: {}
       name: colour_counts
       layout_properties: {grid_position: 'LAYDMA,KGQEGC'}
-  - type: ColumnPanel
-    properties: {col_widths: '{}'}
-    name: column_panel_2
-    layout_properties: {grid_position: 'LLMATV,HDUIXG'}
-    components:
-    - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: Win Rate, font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3
-      layout_properties: {grid_position: 'PSHUUN,BQHJES'}
-    - type: Label
-      properties: {}
-      name: text_box_1
-      layout_properties: {grid_position: 'QOJNQW,WJNEYW'}
-  - type: ColumnPanel
-    properties: {col_widths: '{}'}
-    name: column_panel_8
-    layout_properties: {grid_position: 'LLMATV,FVIZJA'}
-    components:
-    - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: Play Count, font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4
-      layout_properties: {grid_position: 'RHQFOP,YCKVCT'}
-    - type: Label
-      properties: {}
-      name: commander_textbox
-      layout_properties: {grid_position: 'ITSNRT,BXVDGV'}
 - type: FlowPanel
   properties: {}
   name: navbar_links
