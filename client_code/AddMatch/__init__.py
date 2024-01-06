@@ -37,7 +37,7 @@ class AddMatch(AddMatchTemplate):
             row_panel = FlowPanel(role="row-panel")
             
             # Create dropdowns for player name, commander name, and player position
-            player_name_dropdown = DropDown(items=['Benas', 'Evan', 'Jed', 'Nils','Bev'], include_placeholder=True, placeholder='Choose a Player')
+            player_name_dropdown = DropDown(items=['Benas', 'Bev', 'Jed', 'Nils'], include_placeholder=True, placeholder='Choose a Player')
             commander_name_dropdown = DropDown(items=commander_names, include_placeholder=True, placeholder='Choose a Commander')
             player_position_dropdown = DropDown(items=['1', '2', '3', '4'], include_placeholder=True, placeholder='Position')
             

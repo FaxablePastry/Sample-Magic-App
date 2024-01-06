@@ -135,24 +135,6 @@ class Home(HomeTemplate):
   
       return player_stats
 
-
-    def populate_player_data_grid(self):
-        try:
-            commander_stats = self.get_commander_stats()
-            player_stats = self.calculate_player_stats()
-            stats_text = ""
-            for stat in player_stats:
-                stats_text += f"{stat['Player']}, Played: {stat['GamesPlayed']}, Won: {stat['GamesWon']}, Win Rate: {stat['WinRate']:.2f}%\n"
-    # Sort the commander_stats list alphabetically by Commander
-            commander_stats.sort(key=lambda x: x['Commander'])
-    
-            stats_text_alphabetical = ""
-            for stat in commander_stats:
-                stats_text_alphabetical += f"{stat['Commander']}, Played: {stat['GamesPlayed']}, Won: {stat['GamesWon']}, Win Rate: {stat['WinRate']}%\n"
-    
-        except Exception as e:
-            print(f"Error occurred while populating player data grid: {str(e)}")
-
     def populate_player_data_grid(self):
       try:
           commander_stats = self.get_commander_stats()
@@ -198,6 +180,7 @@ class Home(HomeTemplate):
     def get_colour_counts(self):
         # Create a set to store unique winning decks
         unique_decks = set()
+        deck_play_counts = {}
     
         # Retrieve all the records from the match_results table
         records = app_tables.match_results.search()
@@ -206,12 +189,16 @@ class Home(HomeTemplate):
         for record in records:
             if record['PlayerPosition'] == 1:
                 unique_decks.add(record['Commander'])
+                deck_play_counts[record['Commander']] = deck_play_counts.get(record['Commander'], 0) + 1
+
     
         # Initialize color counts
         color_counts = {'White': 0, 'Blue': 0, 'Black': 0, 'Red': 0, 'Green': 0, 'Colourless': 0}
+        print(deck_play_counts.items())
     
         # Retrieve the colors for each unique winning deck and update the color counts
-        for commander in unique_decks:
+        for commander, play_count in deck_play_counts.items():
+          if play_count >= 5:
             commander_record = app_tables.commanders.get(Commander=commander)
             color_counts['White'] += commander_record['White']
             color_counts['Blue'] += commander_record['Blue']
