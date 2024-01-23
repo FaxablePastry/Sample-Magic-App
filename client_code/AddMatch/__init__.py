@@ -83,6 +83,7 @@ class AddMatch(AddMatchTemplate):
     def button_4_click(self, **event_args):
         # Retrieve all rows from the match_results table
         all_rows = app_tables.match_results.search()
+        current_date = ()
     
         # Find the maximum game_ID
         last_used_game_ID = max(row['game_ID'] for row in all_rows) if all_rows else 0

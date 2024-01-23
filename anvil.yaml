@@ -60,5 +60,8 @@ db_schema:
     - name: game_ID
       admin_ui: {width: 200, order: 4}
       type: number
+    - name: Year
+      admin_ui: {width: 200, order: 5}
+      type: number
     title: MATCH RESULTS
 renamed: true
