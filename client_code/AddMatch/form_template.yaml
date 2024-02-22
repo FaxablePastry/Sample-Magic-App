@@ -49,9 +49,9 @@ components:
       foreground: 'theme:On Secondary', visible: true, text: Submit Match, font_size: null,
       font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
       background: 'theme:On Primary Container', bold: false, underline: false, icon: ''}
-    name: button_4
+    name: submit_match
     layout_properties: {grid_position: 'XHJJCD,VOQLQW'}
-    event_bindings: {click: button_4_click}
+    event_bindings: {click: submit_match_click}
 - type: FlowPanel
   properties: {}
   name: navbar_links

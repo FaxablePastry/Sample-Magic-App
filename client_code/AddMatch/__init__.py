@@ -86,7 +86,7 @@ class AddMatch(AddMatchTemplate):
         
         return commander_names
 
-    def button_4_click(self, **event_args):
+    def submit_match_click(self, **event_args):
         # Retrieve all rows from the match_results table
         all_rows = app_tables.match_results.search()
         current_date = ()
