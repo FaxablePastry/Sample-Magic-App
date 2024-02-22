@@ -350,6 +350,5 @@ class Home(HomeTemplate):
     def button_5_click(self, **event_args):
       open_form('PlayerPositions')
 
-    def button_6_click(self, **event_args):
-      open_form('ColourPage')
-
+    def button_7_click(self, **event_args):
+      open_form('OneVOnes')

@@ -73,41 +73,40 @@ class PlayerPositions(PlayerPositionsTemplate):
       records = app_tables.match_results.search()
       player_stats = self.calculate_player_stats()
   
-      # Create a dictionary to count player positions
+      # Create a dictionary to count player positions and total points
       player_positions = {}
       for record in records:
           player = record['Player']
           position = record['PlayerPosition']
           
           if player not in player_positions:
-              player_positions[player] = {1: 0, 2: 0, 3: 0, 4: 0}
+              player_positions[player] = {'positions': {1: 0, 2: 0, 3: 0, 4: 0}, 'total_points': 0}
           
-          player_positions[player][position] += 1
-      
-      # Sort the player_positions dictionary by the count of first places (position 1)
-      sorted_player_positions = dict(sorted(player_positions.items(), key=lambda item: item[1][1], reverse=True))
-      
+          player_positions[player]['positions'][position] += 1
+  
+      # Calculate total points for each player
+      for player_stat in player_stats:
+          player = player_stat['Player']
+          points = player_stat['Points']
+          player_positions[player]['total_points'] = points
+  
+      # Sort the player_positions dictionary by total points
+      sorted_player_positions = dict(sorted(player_positions.items(), key=lambda item: item[1]['total_points'], reverse=True))
+  
       # Create a list of dictionaries for the RepeatingPanel
       data = []
-      player_points = {}
-
-      for player_stat in player_stats:
-            player = player_stat['Player']
-            player_points[player] = player_stat['Points']
-
-      for player, positions in sorted_player_positions.items():
-            player_stat = next((item for item in player_stats if item['Player'] == player), None)
-            row_data = {
-                'column_1': player,
-                'column_2': positions[1],
-                'column_3': positions[2],
-                'column_4': positions[3],
-                'column_5': positions[4]
-            }
-            if player_stat:
-                row_data['column_6'] = player_stat['Points']
-            data.append(row_data)
+      for player, stats in sorted_player_positions.items():
+          row_data = {
+              'column_1': player,
+              'column_2': stats['positions'][1],
+              'column_3': stats['positions'][2],
+              'column_4': stats['positions'][3],
+              'column_5': stats['positions'][4],
+              'column_6': stats['total_points']
+          }
+          data.append(row_data)
       self.repeating_panel_1.items = data
+
 
   
   def form_show(self, **event_args):
