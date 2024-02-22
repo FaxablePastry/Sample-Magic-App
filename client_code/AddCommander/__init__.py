@@ -93,4 +93,9 @@ class AddCommander(AddCommanderTemplate):
     def button_5_click(self, **event_args):
       open_form('PlayerPositions')
 
+    def button_7_click(self, **event_args):
+      open_form('OneVOnes')
+
+    def button_6_click(self, **event_args):
+      open_form('ColourPage')
 

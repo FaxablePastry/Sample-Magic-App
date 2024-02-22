@@ -8,6 +8,10 @@ components:
   name: content_panel
   layout_properties: {slot: default}
   components:
+  - name: outlined_1
+    properties: {role: outlined, placeholder: This colour data malarky is actually kinda hard}
+    type: TextBox
+    layout_properties: {grid_position: 'UHSZNO,CTAQXW'}
   - name: plot_1
     properties: {}
     type: Plot
@@ -37,7 +41,7 @@ components:
     type: Button
     layout_properties:
       col_widths: {}
-      grid_position: OBASJP,UZFMGY
+      grid_position: XRXVXQ,WAOQPI
     event_bindings: {click: button_4_click}
   - name: button_2
     properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
@@ -63,13 +67,15 @@ components:
     type: Button
     layout_properties:
       col_widths: {}
-      grid_position: SABSBL,TMVUAH
+      grid_position: QWRXIG,AGPFMF
     event_bindings: {click: button_5_click}
   - name: button_6
-    properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: Colour Page, font_size: null, font: '',
-      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: ''}
+    properties: {text: Colour Data}
     type: Button
-    layout_properties: {grid_position: 'DYIKQK,YDGMVI'}
+    layout_properties: {grid_position: 'YRPUMP,CBZSYW'}
     event_bindings: {click: button_6_click}
+  - name: button_7
+    properties: {text: 1 v 1s}
+    type: Button
+    layout_properties: {grid_position: 'GKPHGU,KGLRZD'}
+    event_bindings: {click: button_7_click}

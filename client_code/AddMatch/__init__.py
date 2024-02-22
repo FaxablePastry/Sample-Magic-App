@@ -59,12 +59,18 @@ class AddMatch(AddMatchTemplate):
 
     def button_3_click(self, **event_args):
         open_form('AddCommander')
-      
-    def button_4_copy_click(self, **event_args):
+
+    def button_4_click(self, **event_args):
         open_form('CommanderStats')
- 
+
     def button_5_click(self, **event_args):
-        open_form('PlayerPositions')
+      open_form('PlayerPositions')
+
+    def button_7_click(self, **event_args):
+      open_form('OneVOnes')
+
+    def button_6_click(self, **event_args):
+      open_form('ColourPage')
 
     def get_commander_names_from_table(self):
         commander_names = []
@@ -136,7 +142,7 @@ class AddMatch(AddMatchTemplate):
             row_panel.get_components()[2].selected_value = None
         # Show a success message as a popup
 
-    def button_6_click(self, **event_args):
+    def prev_game_click(self, **event_args):
         # Find the highest game_ID
         highest_game = app_tables.match_results.search(tables.order_by('game_ID', ascending=False))
 

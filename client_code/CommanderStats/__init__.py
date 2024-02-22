@@ -194,17 +194,21 @@ class CommanderStats(CommanderStatsTemplate):
 
     def button_1_click(self, **event_args):
         open_form('Home')
-  
+
     def button_2_click(self, **event_args):
-       open_form('AddMatch')
-  
+        open_form('AddMatch')
+
     def button_3_click(self, **event_args):
-       open_form('AddCommander')
-  
+        open_form('AddCommander')
+
     def button_4_click(self, **event_args):
         open_form('CommanderStats')
 
     def button_5_click(self, **event_args):
-       open_form('PlayerPositions')
+      open_form('PlayerPositions')
 
+    def button_7_click(self, **event_args):
+      open_form('OneVOnes')
 
+    def button_6_click(self, **event_args):
+      open_form('ColourPage')
