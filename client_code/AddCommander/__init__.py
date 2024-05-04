@@ -43,7 +43,7 @@ class AddCommander(AddCommanderTemplate):
 
     def deck_button_click(self, **event_args):
         # Retrieve the values from the form components
-        commander_name = self.commander.text
+        commander = self.commander.text
         white = self.white.checked
         blue = self.blue.checked
         black = self.black.checked
@@ -52,7 +52,7 @@ class AddCommander(AddCommanderTemplate):
         colourless = self.colourless.checked
         builder = self.builder.selected_value
       # Validate commander name
-        if not commander_name:
+        if not commander:
             # Show an error message if commander name is empty
             anvil.server.alert("Please enter a commander name.", title="Error")
             return
@@ -71,7 +71,7 @@ class AddCommander(AddCommanderTemplate):
         
         # Save the values to the "commanders" table
         app_tables.commanders.add_row(
-            commander_name = self.commander.text.strip(),  # Remove leading and trailing spaces
+            Commander = self.commander.text.strip(),  # Remove leading and trailing spaces
             White=white,
             Blue=blue,
             Black=black,
