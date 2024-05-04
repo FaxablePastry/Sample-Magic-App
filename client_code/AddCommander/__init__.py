@@ -51,10 +51,27 @@ class AddCommander(AddCommanderTemplate):
         green = self.green.checked
         colourless = self.colourless.checked
         builder = self.builder.selected_value
+      # Validate commander name
+        if not commander_name:
+            # Show an error message if commander name is empty
+            anvil.server.alert("Please enter a commander name.", title="Error")
+            return
+        
+        # Validate at least one color is selected
+        if not (white or blue or black or red or green or colourless):
+            # Show an error message if no color is selected
+            anvil.server.alert("Please select at least one color.", title="Error")
+            return
+        
+        # Validate builder is selected
+        if not builder:
+            # Show an error message if builder is not selected
+            anvil.server.alert("Please select a builder.", title="Error")
+            return
         
         # Save the values to the "commanders" table
         app_tables.commanders.add_row(
-            Commander=commander_name,
+            commander_name = self.commander.text.strip(),  # Remove leading and trailing spaces
             White=white,
             Blue=blue,
             Black=black,
