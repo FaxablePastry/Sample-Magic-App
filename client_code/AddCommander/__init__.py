@@ -52,7 +52,7 @@ class AddCommander(AddCommanderTemplate):
         colourless = self.colourless.checked
         builder = self.builder.selected_value
       # Validate commander name
-        if not commander:
+        if not commander or not any(c.isalpha() for c in commander):
             # Show an error message if commander name is empty
             anvil.server.alert("Please enter a commander name.", title="Error")
             return
