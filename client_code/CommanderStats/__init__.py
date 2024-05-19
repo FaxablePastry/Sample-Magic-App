@@ -4,6 +4,8 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 from anvil.tables import app_tables
 from ._anvil_designer import CommanderStatsTemplate
+
+
 class CommanderStats(CommanderStatsTemplate):
     def __init__(self, **properties):
         # Set Form properties and Data Bindings.
@@ -69,9 +71,14 @@ class CommanderStats(CommanderStatsTemplate):
             win_rate = (games_won / games_played) * 100 if games_played > 0 else 0
             win_rate = round(win_rate, 2)
     
+            # Retrieve the deck builder from the commanders table
+            commander_record = app_tables.commanders.get(Commander=commander)
+            deck_builder = commander_record['deck_builder'] if commander_record else 'Unknown'
+    
             # Create a dictionary with the commander statistics
             commander_stat = {
                 'Commander': commander,
+                'DeckBuilder': deck_builder,
                 'GamesPlayed': games_played,
                 'GamesWon': games_won,
                 'WinRate': win_rate
@@ -83,65 +90,62 @@ class CommanderStats(CommanderStatsTemplate):
     
         return commander_stats
 
-
-
     def calculate_player_stats(self):
-      player_stats = []
-  
-      # Retrieve all the records from the match_results table
-      records = app_tables.match_results.search()
-  
-      # Count the games played and games won for each player
-      player_stats_dict = {}
-      player_winstreaks = {}  # Dictionary to track winstreaks
-      for record in records:
-          player = record['Player']
-          player_position = record['PlayerPosition']
-  
-          if player not in player_stats_dict:
-              player_stats_dict[player] = {'games_played': 0, 'games_won': 0}
-              player_winstreaks[player] = {'current_winstreak': 0, 'longest_winstreak': 0}
-  
-          player_stats_dict[player]['games_played'] += 1
-          if player_position == 1:
-              player_stats_dict[player]['games_won'] += 1
-              player_winstreaks[player]['current_winstreak'] += 1
-              # Check if the current winstreak exceeds the longest winstreak
-              if player_winstreaks[player]['current_winstreak'] > player_winstreaks[player]['longest_winstreak']:
-                  player_winstreaks[player]['longest_winstreak'] = player_winstreaks[player]['current_winstreak']
-          else:
-              player_winstreaks[player]['current_winstreak'] = 0  # Reset winstreak on loss
-  
-      # Calculate the win rate and include winstreak information for each player
-      for player, stats in player_stats_dict.items():
-          games_played = stats['games_played']
-          games_won = stats['games_won']
-          win_rate = (games_won / games_played) * 100 if games_played > 0 else 0
-          win_rate = round(win_rate, 2)
-  
-          # Include winstreak information in the player statistics
-          player_stat = {
-              'Player': player,
-              'GamesPlayed': games_played,
-              'GamesWon': games_won,
-              'WinRate': win_rate,
-              'CurrentWinstreak': player_winstreaks[player]['current_winstreak'],
-              'LongestWinstreak': player_winstreaks[player]['longest_winstreak']
-          }
-          player_stats.append(player_stat)
-  
-      # Sort the player_stats list by WinRate in descending order
-      player_stats.sort(key=lambda x: x['WinRate'], reverse=True)
-  
-      return player_stats
+        player_stats = []
 
-    
+        # Retrieve all the records from the match_results table
+        records = app_tables.match_results.search()
+
+        # Count the games played and games won for each player
+        player_stats_dict = {}
+        player_winstreaks = {}  # Dictionary to track winstreaks
+        for record in records:
+            player = record['Player']
+            player_position = record['PlayerPosition']
+
+            if player not in player_stats_dict:
+                player_stats_dict[player] = {'games_played': 0, 'games_won': 0}
+                player_winstreaks[player] = {'current_winstreak': 0, 'longest_winstreak': 0}
+
+            player_stats_dict[player]['games_played'] += 1
+            if player_position == 1:
+                player_stats_dict[player]['games_won'] += 1
+                player_winstreaks[player]['current_winstreak'] += 1
+                # Check if the current winstreak exceeds the longest winstreak
+                if player_winstreaks[player]['current_winstreak'] > player_winstreaks[player]['longest_winstreak']:
+                    player_winstreaks[player]['longest_winstreak'] = player_winstreaks[player]['current_winstreak']
+            else:
+                player_winstreaks[player]['current_winstreak'] = 0  # Reset winstreak on loss
+
+        # Calculate the win rate and include winstreak information for each player
+        for player, stats in player_stats_dict.items():
+            games_played = stats['games_played']
+            games_won = stats['games_won']
+            win_rate = (games_won / games_played) * 100 if games_played > 0 else 0
+            win_rate = round(win_rate, 2)
+
+            # Include winstreak information in the player statistics
+            player_stat = {
+                'Player': player,
+                'GamesPlayed': games_played,
+                'GamesWon': games_won,
+                'WinRate': win_rate,
+                'CurrentWinstreak': player_winstreaks[player]['current_winstreak'],
+                'LongestWinstreak': player_winstreaks[player]['longest_winstreak']
+            }
+            player_stats.append(player_stat)
+
+        # Sort the player_stats list by WinRate in descending order
+        player_stats.sort(key=lambda x: x['WinRate'], reverse=True)
+
+        return player_stats
+
     def get_colour_stats(self):
         colour_stats = []
-    
+
         # Retrieve all the records from the commanders table
         records = app_tables.commanders.search()
-    
+
         # Extract the color combination for each commander
         for record in records:
             commander = record['Commander']
@@ -151,7 +155,7 @@ class CommanderStats(CommanderStatsTemplate):
             red = record['Red']
             green = record['Green']
             colourless = record['Colourless']
-    
+
             color_combination = []
             if white > 0:
                 color_combination.append('White')
@@ -165,25 +169,25 @@ class CommanderStats(CommanderStatsTemplate):
                 color_combination.append('Green')
             if colourless > 0:
                 color_combination.append('Colourless')
-    
+
             colour_stat = {
                 'Commander': commander,
                 'ColorCombination': color_combination
             }
-    
-            colour_stats.append(colour_stat)
 
+            colour_stats.append(colour_stat)
 
         print(colour_stats)
         return colour_stats
-        
+
     def populate_commander_grid(self):
-      try:
+        try:
             commander_stats = self.get_commander_stats()
-            data = [{'commander_name': stat['Commander'], 'commander_played': stat['GamesPlayed'], 'commander_won': stat['GamesWon'], 'commander_win': stat['WinRate']} for stat in commander_stats]
+            data = [{'commander_name': stat['Commander'], 'deck_builder': stat['DeckBuilder'], 'commander_played': stat['GamesPlayed'], 'commander_won': stat['GamesWon'], 'commander_win': stat['WinRate']} for stat in commander_stats]
             self.repeating_panel_1.items = data
-      except Exception as e:
+        except Exception as e:
             print(f"Error occurred while populating commander data grid: {str(e)}")
+
 
 
 
@@ -197,6 +201,8 @@ class CommanderStats(CommanderStatsTemplate):
 
     def button_2_click(self, **event_args):
         open_form('AddMatch')
+    def button_2_copy_click(self, **event_args):
+      open_form('AddPlayer')
 
     def button_3_click(self, **event_args):
         open_form('AddCommander')

@@ -115,8 +115,12 @@ class PlayerPositions(PlayerPositionsTemplate):
 
   def button_1_click(self, **event_args):
       open_form('Home')
+  
 
   def button_2_click(self, **event_args):
+      open_form('AddMatch')
+    
+  def button_2_copy_click(self, **event_args):
       open_form('AddMatch')
 
   def button_3_click(self, **event_args):

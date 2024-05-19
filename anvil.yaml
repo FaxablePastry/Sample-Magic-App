@@ -12,7 +12,84 @@ runtime_options: {version: 2, client_version: '3', server_version: python3-sandb
 metadata: {logo_img: 'https://cdn-cardmavin.mavin.io/wp-content/uploads/2019/12/Commander-Legends-MTG-set-symbol-140x150.png'}
 startup_form: null
 db_schema:
-  commanders:
+  _2023_results:
+    client: none
+    server: full
+    columns:
+    - name: Player
+      admin_ui: {width: 200, order: 0}
+      type: string
+    - name: Commander
+      admin_ui: {width: 200, order: 1}
+      type: string
+    - name: PlayerPosition
+      admin_ui: {width: 200, order: 2}
+      type: number
+    - name: PlayerCount
+      admin_ui: {width: 200, order: 3}
+      type: number
+    - name: game_ID
+      admin_ui: {width: 200, order: 4}
+      type: number
+    - name: Year
+      admin_ui: {width: 200, order: 5}
+      type: number
+    title: 2023 Results
+  names:
+    client: full
+    server: full
+    columns:
+    - name: player_name
+      admin_ui: {order: 0, width: 200}
+      type: string
+    title: Names
+  match_results_redundent:
+    client: full
+    server: full
+    columns:
+    - name: Player
+      admin_ui: {order: 0, width: 200}
+      type: string
+    - name: Commander
+      admin_ui: {order: 1, width: 200}
+      type: string
+    - name: PlayerPosition
+      admin_ui: {order: 2, width: 200}
+      type: number
+    - name: PlayerCount
+      admin_ui: {order: 3, width: 200}
+      type: number
+    - name: game_ID
+      admin_ui: {width: 200, order: 4}
+      type: number
+    - name: Year
+      admin_ui: {width: 200, order: 5}
+      type: number
+    title: MATCH RESULTS OLD
+  match_results:
+    title: Match Results
+    client: full
+    server: full
+    columns:
+    - name: Player
+      admin_ui: {width: 200}
+      type: string
+    - name: Commander
+      admin_ui: {width: 200}
+      type: string
+    - name: PlayerPosition
+      admin_ui: {width: 200}
+      type: number
+    - name: PlayerCount
+      admin_ui: {width: 200}
+      type: number
+    - name: game_ID
+      admin_ui: {width: 200}
+      type: number
+    - name: Year
+      admin_ui: {width: 200}
+      type: number
+  commanders_old:
     client: full
     server: full
     columns:
@@ -40,51 +117,34 @@ db_schema:
     - name: Builder
       admin_ui: {order: 7, width: 200}
       type: string
-    title: COMMANDERS
-  match_results:
+    title: COMMANDER OLD
+  commanders:
     client: full
     server: full
     columns:
-    - name: Player
-      admin_ui: {order: 0, width: 200}
-      type: string
     - name: Commander
-      admin_ui: {order: 1, width: 200}
-      type: string
-    - name: PlayerPosition
-      admin_ui: {order: 2, width: 200}
-      type: number
-    - name: PlayerCount
-      admin_ui: {order: 3, width: 200}
-      type: number
-    - name: game_ID
-      admin_ui: {width: 200, order: 4}
-      type: number
-    - name: Year
-      admin_ui: {width: 200, order: 5}
-      type: number
-    title: MATCH RESULTS
-  _2023_results:
-    client: none
-    server: full
-    columns:
-    - name: Player
       admin_ui: {width: 200, order: 0}
       type: string
-    - name: Commander
+    - name: White
       admin_ui: {width: 200, order: 1}
+      type: bool
+    - name: Black
+      admin_ui: {width: 200}
+      type: bool
+    - name: Blue
+      admin_ui: {width: 200}
+      type: bool
+    - name: Builder
+      admin_ui: {width: 200}
       type: string
-    - name: PlayerPosition
-      admin_ui: {width: 200, order: 2}
-      type: number
-    - name: PlayerCount
-      admin_ui: {width: 200, order: 3}
-      type: number
-    - name: game_ID
-      admin_ui: {width: 200, order: 4}
-      type: number
-    - name: Year
-      admin_ui: {width: 200, order: 5}
-      type: number
-    title: 2023 Results
+    - name: Colourless
+      admin_ui: {width: 200}
+      type: bool
+    - name: Green
+      admin_ui: {width: 200}
+      type: bool
+    - name: Red
+      admin_ui: {width: 200}
+      type: bool
+    title: COMMANDERS
 renamed: true

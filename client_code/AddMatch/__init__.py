@@ -30,6 +30,7 @@ class AddMatch(AddMatchTemplate):
         self.flow_panel_1.clear()
         
         # Fetch the commander names from the "commanders" table
+        player_names = self.get_player_names_from_table()
         commander_names = self.get_commander_names_from_table()
         
         # Create rows and add dropdowns to each row
@@ -37,7 +38,7 @@ class AddMatch(AddMatchTemplate):
             row_panel = FlowPanel(role="row-panel")
             
             # Create dropdowns for player name, commander name, and player position
-            player_name_dropdown = DropDown(items=['Benas', 'Bev', 'Jed', 'Nils'], include_placeholder=True, placeholder='Choose a Player')
+            player_name_dropdown = DropDown(items=player_names, include_placeholder=True, placeholder='Choose a Player')
             commander_name_dropdown = DropDown(items=commander_names, include_placeholder=True, placeholder='Choose a Commander')
             player_position_dropdown = DropDown(items=['1', '2', '3', '4'], include_placeholder=True, placeholder='Position')
             
@@ -48,6 +49,7 @@ class AddMatch(AddMatchTemplate):
             
             self.flow_panel_1.add_component(row_panel)
 
+
     def text_box_1_pressed_enter(self, **event_args):
         pass
 
@@ -55,7 +57,7 @@ class AddMatch(AddMatchTemplate):
         open_form('Home')
 
     def button_2_click(self, **event_args):
-        open_form('AddMatch')
+        open_form('AddPlayer')
 
     def button_3_click(self, **event_args):
         open_form('AddCommander')
@@ -66,25 +68,36 @@ class AddMatch(AddMatchTemplate):
     def button_5_click(self, **event_args):
       open_form('PlayerPositions')
 
-    def button_7_click(self, **event_args):
-      open_form('OneVOnes')
+    def get_player_names_from_table(self):
+            player_names = []
+            
+            # Fetch the player names from the "names" table
+            records = app_tables.names.search()
+            for record in records:
+                player_name = record['player_name']
+                player_names.append(player_name)
+    
+            # Sort the player names alphabetically
+            player_names.sort()
+            
+            return player_names
 
-    def button_6_click(self, **event_args):
-      open_form('ColourPage')
-
+  
     def get_commander_names_from_table(self):
-        commander_names = []
-        
-        # Fetch the commander names from the "commanders" table
-        records = app_tables.commanders.search()
-        for record in records:
-            commander_name = record['Commander']
-            commander_names.append(commander_name)
-
-        # Sort the commander names alphabetically
-        commander_names.sort()
-        
-        return commander_names
+          commander_names = []
+          
+          # Fetch the commander names from the "commanders" table
+          records = app_tables.commanders.search()
+          for record in records:
+              commander_name = record['Commander']
+              builder_name = record['Builder']
+              combined_name = f"{commander_name} (Builder: {builder_name})"
+              commander_names.append(combined_name)
+  
+          # Sort the commander names alphabetically
+          commander_names.sort()
+          
+          return commander_names
 
     def submit_match_click(self, **event_args):
         # Retrieve all rows from the match_results table
@@ -118,20 +131,23 @@ class AddMatch(AddMatchTemplate):
         # Retrieve all rows from the match_results table, ordered by 'game_ID' in descending order
         all_rows = app_tables.match_results.search(tables.order_by('game_ID', ascending=False))
     
-        if all_rows:
-            # Display details of the highest game_ID
-            highest_game = all_rows[0]
-            previous_game_text = "Previous Game:\n"
-    
-            # Loop through all rows with the highest game_ID
-            for entry in all_rows:
-                if entry['game_ID'] == highest_game['game_ID']:
-                    previous_game_text += f"Player: {entry['Player']}, Commander: {entry['Commander']}, Position: {entry['PlayerPosition']}\n"
-    
-            self.previous_game.text = previous_game_text
-        else:
+        # Check if there are any rows
+        if len(all_rows) == 0:
             # No previous game found
             self.previous_game.text = "No previous game available."
+            return  # Early return if no games are present
+    
+        # Display details of the highest game_ID
+        highest_game = all_rows[0]
+        previous_game_text = "Previous Game:\n"
+    
+        # Loop through all rows with the highest game_ID
+        for entry in all_rows:
+            if entry['game_ID'] == highest_game['game_ID']:
+                previous_game_text += f"Player: {entry['Player']}, Commander: {entry['Commander']}, Position: {entry['PlayerPosition']}\n"
+    
+        self.previous_game.text = previous_game_text
+
 
     
     def clear_form_fields(self):
@@ -157,5 +173,5 @@ class AddMatch(AddMatchTemplate):
             
         else:
             # No previous game found
-            anvil.server.alert("No previous game available.", title="Info")
+            alert("No previous game available.", title="Info")
 

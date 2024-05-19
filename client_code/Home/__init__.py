@@ -221,29 +221,36 @@ class Home(HomeTemplate):
             self.colour_counts.text = color_counts_text
 
     def get_top_5_deck_colors(self):
-        # Get the top 5 commanders with the highest win rates
-        commander_stats = self.get_commander_stats()
-        top_5_commanders = sorted(commander_stats, key=lambda x: x['WinRate'], reverse=True)[:5]
+      # Check if there are at least 5 games
+      total_games = app_tables.match_results.search()
+      if len(total_games) < 5:
+          alert("Not enough games to calculate top 5 deck colors.", title="Info")
+          return None  # Early return if not enough game
+      # Get the top 5 commanders with the highest win rates
+      commander_stats = self.get_commander_stats()
+      top_5_commanders = sorted(commander_stats, key=lambda x: x['WinRate'], reverse=True)[:5]
     
-        # Initialize color counts for the top 5 decks
-        top_5_color_counts = {'White': 0, 'Blue': 0, 'Black': 0, 'Red': 0, 'Green': 0, 'Colourless': 0}
+      # Initialize color counts for the top 5 decks
+      top_5_color_counts = {'White': 0, 'Blue': 0, 'Black': 0, 'Red': 0, 'Green': 0, 'Colourless': 0}
     
-        # Retrieve the colors for the top 5 decks and update the color counts
-        for commander_stat in top_5_commanders:
-            commander_record = app_tables.commanders.get(Commander=commander_stat['Commander'])
-            top_5_color_counts['White'] += commander_record['White']
-            top_5_color_counts['Blue'] += commander_record['Blue']
-            top_5_color_counts['Black'] += commander_record['Black']
-            top_5_color_counts['Red'] += commander_record['Red']
-            top_5_color_counts['Green'] += commander_record['Green']
-            top_5_color_counts['Colourless'] += commander_record['Colourless']
-    
-        return top_5_color_counts
+      # Retrieve the colors for the top 5 decks and update the color counts
+      for commander_stat in top_5_commanders:
+          commander_record = app_tables.commanders.get(Commander=commander_stat['Commander'])
+          top_5_color_counts['White'] += commander_record['White']
+          top_5_color_counts['Blue'] += commander_record['Blue']
+          top_5_color_counts['Black'] += commander_record['Black']
+          top_5_color_counts['Red'] += commander_record['Red']
+          top_5_color_counts['Green'] += commander_record['Green']
+          top_5_color_counts['Colourless'] += commander_record['Colourless']
+  
+      return top_5_color_counts
 
 
     def display_top_5_colour_count(self):
         print("Function is being called")  # Add this line
         top_5_color_counts = self.get_top_5_deck_colors()
+        if top_5_color_counts is None:
+         return  # Early return if not enough games
     
         # Create a string to display the color counts
         top_color_counts_text = (
@@ -340,6 +347,9 @@ class Home(HomeTemplate):
 
     def button_2_click(self, **event_args):
         open_form('AddMatch')
+
+    def button_2_copy_click(self, **event_args):
+      open_form('AddPlayer')
 
     def button_3_click(self, **event_args):
         open_form('AddCommander')

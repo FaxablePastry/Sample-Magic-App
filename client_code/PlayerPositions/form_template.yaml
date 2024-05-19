@@ -61,16 +61,6 @@ components:
     type: Button
     layout_properties: {grid_position: 'PCCBJL,LFGKRP'}
     event_bindings: {click: button_1_click}
-  - name: button_4
-    properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: Commander Stats, font_size: null, font: '',
-      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: ''}
-    type: Button
-    layout_properties:
-      col_widths: {}
-      grid_position: XRXVXQ,WAOQPI
-    event_bindings: {click: button_4_click}
   - name: button_2
     properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: Add Game, font_size: null, font: '', spacing_above: small,
@@ -79,6 +69,14 @@ components:
     type: Button
     layout_properties: {grid_position: 'XPFPLE,AFCMLN'}
     event_bindings: {click: button_2_click}
+  - name: button_2_copy
+    properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: Add Player, font_size: null, font: '',
+      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false, icon: ''}
+    type: Button
+    layout_properties: {grid_position: 'DQVSZD,IZLUIU'}
+    event_bindings: {click: button_2_copy_click}
   - name: button_3
     properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: Add Commander, font_size: null, font: '',
@@ -87,6 +85,14 @@ components:
     type: Button
     layout_properties: {grid_position: 'LINDIC,FKMPSS'}
     event_bindings: {click: button_3_click}
+  - name: button_4
+    properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: Commander Stats, font_size: null, font: '',
+      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false, icon: ''}
+    type: Button
+    layout_properties: {grid_position: 'TFNTRN,JJMRZS'}
+    event_bindings: {click: button_4_click}
   - name: button_5
     properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: Player Positions, font_size: null, font: '',
@@ -97,13 +103,3 @@ components:
       col_widths: {}
       grid_position: QWRXIG,AGPFMF
     event_bindings: {click: button_5_click}
-  - name: button_6
-    properties: {text: Colour Data}
-    type: Button
-    layout_properties: {grid_position: 'YRPUMP,CBZSYW'}
-    event_bindings: {click: button_6_click}
-  - name: button_7
-    properties: {text: 1 v 1s}
-    type: Button
-    layout_properties: {grid_position: 'GKPHGU,KGLRZD'}
-    event_bindings: {click: button_7_click}

@@ -54,19 +54,19 @@ class AddCommander(AddCommanderTemplate):
       # Validate commander name
         if not commander or not any(c.isalpha() for c in commander):
             # Show an error message if commander name is empty
-            anvil.server.alert("Please enter a commander name.", title="Error")
+            alert("Please enter a commander name.", title="Error")
             return
         
         # Validate at least one color is selected
         if not (white or blue or black or red or green or colourless):
             # Show an error message if no color is selected
-            anvil.server.alert("Please select at least one color.", title="Error")
+            alert("Please select at least one color.", title="Error")
             return
         
         # Validate builder is selected
         if not builder:
             # Show an error message if builder is not selected
-            anvil.server.alert("Please select a builder.", title="Error")
+            alert("Please select a builder.", title="Error")
             return
         
         # Save the values to the "commanders" table
@@ -93,7 +93,7 @@ class AddCommander(AddCommanderTemplate):
 
   
         # Show a success message as a popup
-        anvil.server.alert("Commander added successfully!", title="Success")
+        alert("Commander added successfully!", title="Success")
 
     def button_1_click(self, **event_args):
         open_form('Home')
@@ -115,4 +115,7 @@ class AddCommander(AddCommanderTemplate):
 
     def button_6_click(self, **event_args):
       open_form('ColourPage')
+
+    def button_2_copy_click(self, **event_args):
+      open_form('AddPlayer')
 

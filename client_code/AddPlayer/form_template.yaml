@@ -4,18 +4,33 @@ container:
   properties: {html: '@theme:standard-page.html'}
 components:
 - type: ColumnPanel
-  properties: {}
+  properties: {col_widths: '{}'}
   name: content_panel
   layout_properties: {slot: default}
   components:
-  - name: outlined_1
-    properties: {role: outlined, placeholder: EPIC 1 V 1 Results B)}
+  - name: player_name_textbox
+    properties: {placeholder: Enter Name Here, align: center}
     type: TextBox
-    layout_properties: {grid_position: 'HGJICO,MHKWYT'}
+    layout_properties: {grid_position: 'MSXLOK,FEQCPF'}
+  - type: Button
+    properties: {role: filled-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: 'theme:On Secondary', visible: true, text: Submit Name, font_size: null,
+      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: 'theme:On Primary Container', bold: false, underline: false, icon: ''}
+    name: add_player_button
+    layout_properties: {grid_position: 'XHJJCD,VOQLQW'}
+    event_bindings: {click: add_player_button_click}
 - type: FlowPanel
   properties: {}
   name: navbar_links
   layout_properties: {slot: nav-right}
+- type: RichText
+  properties: {role: null, align: left, tooltip: '', enable_slots: true, border: '',
+    foreground: '', visible: true, font_size: null, content: Add the game results on this page,
+    font: '', spacing_above: small, spacing_below: small, data: null, background: '',
+    format: markdown}
+  name: rich_text_1
+  layout_properties: {slot: title}
 - name: column_panel_1
   properties: {col_widths: '{}'}
   type: ColumnPanel
@@ -29,16 +44,6 @@ components:
     type: Button
     layout_properties: {grid_position: 'PCCBJL,LFGKRP'}
     event_bindings: {click: button_1_click}
-  - name: button_4
-    properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: Commander Stats, font_size: null, font: '',
-      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: ''}
-    type: Button
-    layout_properties:
-      col_widths: {}
-      grid_position: XRXVXQ,WAOQPI
-    event_bindings: {click: button_4_click}
   - name: button_2
     properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: Add Game, font_size: null, font: '', spacing_above: small,
@@ -47,6 +52,14 @@ components:
     type: Button
     layout_properties: {grid_position: 'XPFPLE,AFCMLN'}
     event_bindings: {click: button_2_click}
+  - name: button_2_copy
+    properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: Add Player, font_size: null, font: '',
+      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false, icon: ''}
+    type: Button
+    layout_properties: {grid_position: 'ZSOOUZ,JDIAXW'}
+    event_bindings: {click: button_2_copy_click}
   - name: button_3
     properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: Add Commander, font_size: null, font: '',
@@ -55,6 +68,14 @@ components:
     type: Button
     layout_properties: {grid_position: 'LINDIC,FKMPSS'}
     event_bindings: {click: button_3_click}
+  - name: button_4_copy
+    properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: Commander Stats, font_size: null, font: '',
+      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false, icon: ''}
+    type: Button
+    layout_properties: {grid_position: 'MJOBLY,EDQTEN'}
+    event_bindings: {click: button_4_click}
   - name: button_5
     properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: Player Positions, font_size: null, font: '',
@@ -65,13 +86,3 @@ components:
       col_widths: {}
       grid_position: QWRXIG,AGPFMF
     event_bindings: {click: button_5_click}
-  - name: button_6
-    properties: {text: Colour Data}
-    type: Button
-    layout_properties: {grid_position: 'YRPUMP,CBZSYW'}
-    event_bindings: {click: button_6_click}
-  - name: button_7
-    properties: {text: 1 v 1s}
-    type: Button
-    layout_properties: {grid_position: 'GKPHGU,KGLRZD'}
-    event_bindings: {click: button_7_click}
